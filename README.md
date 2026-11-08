@@ -61,7 +61,7 @@ own Aave position.
 
 | Network | Address |
 | --- | --- |
-| Polygon mainnet | _set `RELAY_ADDRESS` after `npm run deploy:polygon` in `contracts/`_ |
+| Polygon mainnet | [`0xA46C2c8e3Fd4A1c6D6c4ae81f5ACC4d32E37f4E4`](https://polygonscan.com/address/0xA46C2c8e3Fd4A1c6D6c4ae81f5ACC4d32E37f4E4) |
 
 **Security notes**
 

@@ -58,7 +58,7 @@ export const FX_URL = 'https://open.er-api.com/v6/latest/USD'
 
 // Filled in after the relay contract is deployed to Polygon mainnet.
 // The API and the app also accept RELAY_ADDRESS / VITE_RELAY_ADDRESS as an override.
-export const RELAY_ADDRESS = '0x0000000000000000000000000000000000000000' as const
+export const RELAY_ADDRESS = '0xA46C2c8e3Fd4A1c6D6c4ae81f5ACC4d32E37f4E4' as const
 export const NIM_FEE_ADDRESS = 'NQ00 0000 0000 0000 0000 0000 0000 0000 0000'
 
 export const MAX_UINT256 = (1n << 256n) - 1n

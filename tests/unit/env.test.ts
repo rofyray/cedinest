@@ -8,7 +8,10 @@ afterEach(() => { for (const k of KEYS) { if (saved[k] === undefined) delete pro
 describe('missingConfig', () => {
   it('lists everything a real deployment still needs', () => {
     for (const k of KEYS) delete process.env[k]
-    expect(missingConfig()).toEqual(['DATABASE_URL', 'RELAYER_PRIVATE_KEY', 'RELAY_ADDRESS', 'NIM_FEE_ADDRESS'])
+    // RELAY_ADDRESS falls back to the deployed mainnet address in shared/constants.ts
+    expect(missingConfig()).toEqual(['DATABASE_URL', 'RELAYER_PRIVATE_KEY', 'NIM_FEE_ADDRESS'])
+    process.env.RELAY_ADDRESS = '0x' + '0'.repeat(40)
+    expect(missingConfig()).toContain('RELAY_ADDRESS')
   })
   it('is empty once everything is set, and always in mock mode', () => {
     process.env.CHAIN_MODE = 'real'
