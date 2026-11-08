@@ -68,7 +68,7 @@ test('stamps a $20 saving with two approvals and lands on the done screen', asyn
   await page.getByTestId('stamp-it').click()
 
   await expect(page).toHaveURL(/\/job\/j_/)
-  await expect(page.getByTestId('done-title')).toHaveText('E don enter!', { timeout: 20_000 })
+  await expect(page.getByTestId('done-title')).toHaveText('E enter!', { timeout: 20_000 })
   await expect(page.getByText('$20 is in your Rent savings and earning from today.')).toBeVisible()
   await expect(page.getByText('20.00 USDT')).toBeVisible()
   await expect(page.getByTestId('explorer-link')).toHaveAttribute('href', /polygonscan\.com\/tx\/0x[0-9a-f]{64}/)

@@ -12,7 +12,7 @@ can, and watch a monthly stamp card fill up, the way a susu collector's card doe
 <p>
   <img src="assets/screenshots/6-home.png" width="200" alt="Home: savings in cedis, the Since you started chart, the November stamp card and goals" />
   <img src="assets/screenshots/4-save.png" width="200" alt="Stamp a saving: amount, goal, stamp slip with the NIM fee" />
-  <img src="assets/screenshots/5-done.png" width="200" alt="Saved: E don enter, goal progress, share card and receipt" />
+  <img src="assets/screenshots/5-done.png" width="200" alt="Saved: E enter, goal progress, share card and receipt" />
 </p>
 
 Entry for the Nimiq Mini Apps Competition, Cycle III, **Earn** category.
@@ -43,7 +43,7 @@ user pays a small fee in NIM (about 50 NIM, around one US cent) and a relayer pa
 7. After the response (`waitUntil`), the API waits for the NIM payment to be final (memo, amount,
    recipient, execution result, macro-block rule), sends `depositFor` from the relayer wallet under a
    Postgres advisory lock, and waits for the receipt.
-8. The app polls `GET /api/jobs/:id` every 2 s and moves from "Stamping" to "E don enter!". The user
+8. The app polls `GET /api/jobs/:id` every 2 s and moves from "Stamping" to "E enter!". The user
    can close the app; the job finishes server-side.
 
 Withdrawals are the same flow with a permit on aPolUSDT and `withdrawFor`. "Take out everything"

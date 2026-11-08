@@ -33,7 +33,7 @@ test('captures the main screens', async () => {
   await expect(page.getByTestId('goal-picked')).toHaveText('Rent, January')
   await shot('4-save')
   await page.getByTestId('stamp-it').click()
-  await expect(page.getByTestId('done-title')).toHaveText('E don enter!')
+  await expect(page.getByTestId('done-title')).toHaveText('E enter!')
   await shot('5-done')
   await page.getByTestId('back-home').click()
   await expect(page.getByTestId('stamp-summary')).toHaveText('1 stamp · $20 saved')

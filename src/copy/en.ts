@@ -134,7 +134,7 @@ export const en = {
   },
 
   done: {
-    title: 'E don enter!',
+    title: 'E enter!',
     body: '{usd} is in your {goal} savings and earning from today.',
     bodyNoGoal: '{usd} is in your savings and earning from today.',
     receiptSaved: 'Saved',
