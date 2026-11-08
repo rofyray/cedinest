@@ -87,6 +87,15 @@ describe('POST /api/quote', () => {
 })
 
 describe('POST /api/jobs and the state machine', () => {
+  it('accepts an owner address with a wrong mixed-case checksum', async () => {
+    const miscased = OWNER.slice(0, 6).toLowerCase() + OWNER.slice(6).toUpperCase()
+    const res = await api.summary.GET(req('GET', `/api/summary?owner=${miscased}`))
+    expect(res.status).toBe(200)
+    expect((await body(res)).owner).toBe(OWNER.toLowerCase())
+    const q = await api.quote.POST(req('POST', '/api/quote', { kind: 'deposit', owner: miscased, amount: '5000000' }))
+    expect(q.status).toBe(200)
+  })
+
   it('runs a deposit from quote to done and shows the stamp in the summary', async () => {
     const { q } = await quoteDeposit('20000000')
     const signature = await signPermit('usdt0', OWNER, q.permit)

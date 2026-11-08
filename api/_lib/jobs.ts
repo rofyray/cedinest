@@ -1,4 +1,4 @@
-import type { Hex } from 'viem'
+import { getAddress, type Hex } from 'viem'
 import { MAX_UINT256, MIN_DEPOSIT_RAW, PERMIT_TTL_S, QUOTE_TTL_MS } from '../../shared/constants.js'
 import { GAS_DEPOSIT, GAS_WITHDRAW, quoteFee } from '../../shared/fees.js'
 import { isEvmAddress, isGoalId, isNimTxHash, isQuoteId, memoFor, newJobId, newQuoteId } from '../../shared/ids.js'
@@ -21,7 +21,7 @@ export async function createQuote(body: QuoteRequest) {
   if (!isEvmAddress(body.owner)) throw new HttpError(400, 'bad_request', 'owner must be a 0x address')
   if (body.goalId != null && body.goalId !== '' && !isGoalId(body.goalId)) throw new HttpError(400, 'bad_request', 'bad goalId')
   const owner = body.owner.toLowerCase() as `0x${string}`
-  const ownerChecksum = body.owner as `0x${string}`
+  const ownerChecksum = getAddress(owner)
 
   let amountRaw: bigint
   if (body.kind === 'withdraw' && body.amount === 'max') amountRaw = MAX_UINT256

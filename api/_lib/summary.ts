@@ -1,3 +1,4 @@
+import { getAddress } from 'viem'
 import { isEvmAddress } from '../../shared/ids.js'
 import { chartSeries, dayOf, goalProgress, principalUsd, round2, stampsThisMonth, type DoneJob } from '../../shared/summary-math.js'
 import { chain } from './chain.js'
@@ -9,7 +10,8 @@ import { GAS_DEPOSIT, GAS_WITHDRAW, quoteFee } from '../../shared/fees.js'
 export async function buildSummary(ownerParam: string, sessionOwner: string | null, nimAddress?: string | null) {
   if (!isEvmAddress(ownerParam)) throw new HttpError(400, 'bad_request', 'owner must be a 0x address')
   const owner = ownerParam.toLowerCase()
-  const ownerChecksum = ownerParam as `0x${string}`
+  // Re-derive the checksum: wallets send lower-case or checksummed, but viem rejects a wrong mixed case.
+  const ownerChecksum = getAddress(owner)
   const { sql } = await db()
   const c = await chain()
 
