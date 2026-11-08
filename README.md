@@ -17,6 +17,13 @@ can, and watch a monthly stamp card fill up, the way a susu collector's card doe
 
 Entry for the Nimiq Mini Apps Competition, Cycle III, **Earn** category.
 
+| | |
+| --- | --- |
+| Production | https://cedinest.vercel.app |
+| Open in Nimiq Pay | https://nimpay.app/miniapps/open/cedinest.vercel.app |
+| In-app scheme | `nimiqpay://miniapp?url=cedinest.vercel.app` |
+| Health and configuration | https://cedinest.vercel.app/api/health |
+
 ## How a save works
 
 Most Nimiq Pay users hold NIM and USDT, not POL, and a mini app cannot sponsor Polygon gas. So the
