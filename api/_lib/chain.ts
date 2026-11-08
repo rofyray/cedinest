@@ -3,10 +3,10 @@
  * can run against an in-memory fake (CHAIN_MODE=mock) while production uses the real chains.
  */
 import { keccak256, toHex, type Hex } from 'viem'
-import { MAX_UINT256 } from '../../shared/constants'
-import type { NimCheck, NimPaymentExpectation } from '../../shared/nimiq-verify'
-import { db } from './db'
-import { env } from './env'
+import { MAX_UINT256 } from '../../shared/constants.js'
+import type { NimCheck, NimPaymentExpectation } from '../../shared/nimiq-verify.js'
+import { db } from './db.js'
+import { env } from './env.js'
 
 export type Reserve = { active: boolean; frozen: boolean; paused: boolean; apy: number }
 
@@ -38,7 +38,7 @@ export interface Chain {
 
 let chainPromise: Promise<Chain> | null = null
 export function chain(): Promise<Chain> {
-  chainPromise ??= env.chainMode === 'mock' ? Promise.resolve(mockChain()) : import('./chain-real').then((m) => m.realChain())
+  chainPromise ??= env.chainMode === 'mock' ? Promise.resolve(mockChain()) : import('./chain-real.js').then((m) => m.realChain())
   return chainPromise
 }
 export function resetChainForTests() { chainPromise = null }

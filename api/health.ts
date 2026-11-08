@@ -1,6 +1,6 @@
-import { db } from './_lib/db'
-import { env, missingConfig } from './_lib/env'
-import { handler, json } from './_lib/http'
+import { db } from './_lib/db.js'
+import { env, missingConfig } from './_lib/env.js'
+import { handler, json } from './_lib/http.js'
 
 export const GET = handler(async () => {
   let database = 'ok'

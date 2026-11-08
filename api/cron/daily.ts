@@ -1,8 +1,8 @@
-import { chain } from '../_lib/chain'
-import { env } from '../_lib/env'
-import { handler, HttpError, json } from '../_lib/http'
-import { refundDueJobs, retryStuckJobs } from '../_lib/jobs'
-import { storeTodayRate } from '../_lib/prices'
+import { chain } from '../_lib/chain.js'
+import { env } from '../_lib/env.js'
+import { handler, HttpError, json } from '../_lib/http.js'
+import { refundDueJobs, retryStuckJobs } from '../_lib/jobs.js'
+import { storeTodayRate } from '../_lib/prices.js'
 
 export const GET = handler(async (req) => {
   const auth = req.headers.get('authorization') ?? ''

@@ -1,6 +1,6 @@
-import { requireSession } from './_lib/auth'
-import { db } from './_lib/db'
-import { handler, HttpError, json, readJson } from './_lib/http'
+import { requireSession } from './_lib/auth.js'
+import { db } from './_lib/db.js'
+import { handler, HttpError, json, readJson } from './_lib/http.js'
 
 /** First-open consent and the optional first name, stored against the signed-in wallet. */
 export const POST = handler(async (req) => {

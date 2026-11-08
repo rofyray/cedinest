@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import Gate from './views/Gate.vue'
-import { connectWallet, store } from './store'
+import { connectWallet, store } from './store.js'
 
 onMounted(() => { void connectWallet() })
 </script>

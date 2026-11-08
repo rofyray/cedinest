@@ -2,11 +2,11 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import ErrorNote from '../components/ErrorNote.vue'
-import { t } from '../copy/en'
-import { api, ApiError } from '../lib/api'
-import { ghs, usd } from '../lib/format'
-import { isUserRejection } from '../lib/nimiq'
-import { ensureSignedIn, loadSummary, store } from '../store'
+import { t } from '../copy/en.js'
+import { api, ApiError } from '../lib/api.js'
+import { ghs, usd } from '../lib/format.js'
+import { isUserRejection } from '../lib/nimiq.js'
+import { ensureSignedIn, loadSummary, store } from '../store.js'
 
 const props = defineProps<{ id?: string }>()
 const router = useRouter()

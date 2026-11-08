@@ -1,4 +1,4 @@
-import { env } from './env'
+import { env } from './env.js'
 
 export type Row = Record<string, any>
 export type Sql = (strings: TemplateStringsArray, ...values: unknown[]) => Promise<Row[]>

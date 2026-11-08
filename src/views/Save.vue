@@ -2,10 +2,10 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import ErrorNote from '../components/ErrorNote.vue'
-import { t } from '../copy/en'
-import { apyPercent, feeUsd, ghs, lunaToNim, nim, rawToUsd, usd, usdToRaw, usdt } from '../lib/format'
-import { useRelayFlow } from '../lib/flow'
-import { loadSummary, store } from '../store'
+import { t } from '../copy/en.js'
+import { apyPercent, feeUsd, ghs, lunaToNim, nim, rawToUsd, usd, usdToRaw, usdt } from '../lib/format.js'
+import { useRelayFlow } from '../lib/flow.js'
+import { loadSummary, store } from '../store.js'
 
 const router = useRouter()
 const flow = useRelayFlow('deposit')

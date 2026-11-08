@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { monthCells, type Stamp } from '../../shared/stamps'
-import { t } from '../copy/en'
-import { monthNameLong, usdShort } from '../lib/format'
+import { monthCells, type Stamp } from '../../shared/stamps.js'
+import { t } from '../copy/en.js'
+import { monthNameLong, usdShort } from '../lib/format.js'
 
 const props = defineProps<{ stamps: Stamp[]; today?: Date }>()
 

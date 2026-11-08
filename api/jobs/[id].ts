@@ -1,8 +1,8 @@
 import { waitUntil } from '@vercel/functions'
-import { isJobId } from '../../shared/ids'
-import { getJob } from '../_lib/db'
-import { handler, HttpError, json } from '../_lib/http'
-import { processJob, publicJob } from '../_lib/jobs'
+import { isJobId } from '../../shared/ids.js'
+import { getJob } from '../_lib/db.js'
+import { handler, HttpError, json } from '../_lib/http.js'
+import { processJob, publicJob } from '../_lib/jobs.js'
 
 const IDLE_MS = 20_000
 

@@ -1,5 +1,5 @@
 /** npx tsx scripts/verify-nim-payment.ts <hash> <memo> <minLuna>   (NIM_FEE_ADDRESS in env) */
-import { makeNimRpc, waitForFinalNimPayment } from '../shared/nimiq-verify'
+import { makeNimRpc, waitForFinalNimPayment } from '../shared/nimiq-verify.js'
 
 const [hash, memo, minLuna] = process.argv.slice(2)
 if (!hash || !memo || !minLuna) {

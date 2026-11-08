@@ -1,4 +1,4 @@
-import { NIMIQ_RPC, NIMIQ_NETWORK_ID_MAINNET, NIMIQ_BLOCKS_PER_BATCH } from './constants'
+import { NIMIQ_RPC, NIMIQ_NETWORK_ID_MAINNET, NIMIQ_BLOCKS_PER_BATCH } from './constants.js'
 
 export type NimTx = {
   hash: string; blockNumber: number; confirmations: number; from: string; to: string

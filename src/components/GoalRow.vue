@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { t } from '../copy/en'
-import { ghs } from '../lib/format'
-import type { GoalProgress } from '../lib/api'
+import { t } from '../copy/en.js'
+import { ghs } from '../lib/format.js'
+import type { GoalProgress } from '../lib/api.js'
 
 defineProps<{ goal: GoalProgress; added?: number; link?: boolean }>()
 </script>

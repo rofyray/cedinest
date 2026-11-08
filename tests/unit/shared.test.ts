@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { hashDomain } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { apyFromLiquidityRate, reserveFlags } from '../../shared/apy'
-import { APOLUSDT_DOMAIN, APOLUSDT_DOMAIN_TYPE, USDT0_DOMAIN, USDT0_DOMAIN_TYPE } from '../../shared/constants'
-import { quoteFee } from '../../shared/fees'
-import { isJobId, isNimTxHash, isQuoteId, memoFor, newJobId, newQuoteId } from '../../shared/ids'
-import { hexToUtf8, normaliseNimAddress, verifyNimPayment, waitForFinalNimPayment, type NimRpc } from '../../shared/nimiq-verify'
-import { monthCells } from '../../shared/stamps'
-import { chartSeries, goalProgress, stampsThisMonth } from '../../shared/summary-math'
-import { permitTypedData, permitTypedDataJson, recoverPermitSigner } from '../../shared/typed-data'
+import { apyFromLiquidityRate, reserveFlags } from '../../shared/apy.js'
+import { APOLUSDT_DOMAIN, APOLUSDT_DOMAIN_TYPE, USDT0_DOMAIN, USDT0_DOMAIN_TYPE } from '../../shared/constants.js'
+import { quoteFee } from '../../shared/fees.js'
+import { isJobId, isNimTxHash, isQuoteId, memoFor, newJobId, newQuoteId } from '../../shared/ids.js'
+import { hexToUtf8, normaliseNimAddress, verifyNimPayment, waitForFinalNimPayment, type NimRpc } from '../../shared/nimiq-verify.js'
+import { monthCells } from '../../shared/stamps.js'
+import { chartSeries, goalProgress, stampsThisMonth } from '../../shared/summary-math.js'
+import { permitTypedData, permitTypedDataJson, recoverPermitSigner } from '../../shared/typed-data.js'
 
 describe('fee maths', () => {
   it('applies the 50 NIM floor at Nov 8 prices', () => {

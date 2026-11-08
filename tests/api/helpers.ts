@@ -1,5 +1,5 @@
 import { privateKeyToAccount } from 'viem/accounts'
-import { permitTypedData, type PermitFields, type PermitToken } from '../../shared/typed-data'
+import { permitTypedData, type PermitFields, type PermitToken } from '../../shared/typed-data.js'
 
 /** A throwaway test wallet (Hardhat account #1). Never holds real funds. */
 export const TEST_KEY = '0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d' as const
@@ -16,15 +16,15 @@ export function setupTestEnv() {
 
 export async function freshApi() {
   setupTestEnv()
-  const dbMod = await import('../../api/_lib/db')
-  const chainMod = await import('../../api/_lib/chain')
+  const dbMod = await import('../../api/_lib/db.js')
+  const chainMod = await import('../../api/_lib/chain.js')
   dbMod.resetDbForTests()
   chainMod.resetChainForTests()
   await dbMod.db()
   const [quote, jobs, jobById, summary, challenge, session, goals, goalById, profile, cron, health] = await Promise.all([
-    import('../../api/quote'), import('../../api/jobs/index'), import('../../api/jobs/[id]'), import('../../api/summary'),
-    import('../../api/session/challenge'), import('../../api/session/index'), import('../../api/goals/index'),
-    import('../../api/goals/[id]'), import('../../api/profile'), import('../../api/cron/daily'), import('../../api/health'),
+    import('../../api/quote.js'), import('../../api/jobs/index.js'), import('../../api/jobs/[id].js'), import('../../api/summary.js'),
+    import('../../api/session/challenge.js'), import('../../api/session/index.js'), import('../../api/goals/index.js'),
+    import('../../api/goals/[id].js'), import('../../api/profile.js'), import('../../api/cron/daily.js'), import('../../api/health.js'),
   ])
   return { quote, jobs, jobById, summary, challenge, session, goals, goalById, profile, cron, health }
 }
@@ -72,7 +72,7 @@ export async function waitForJob(api: Awaited<ReturnType<typeof freshApi>>, jobI
 }
 
 export async function ageQuotes() {
-  const { db } = await import('../../api/_lib/db')
+  const { db } = await import('../../api/_lib/db.js')
   const { sql } = await db()
   await sql`update quotes set created_at = created_at - interval '2 minutes'`
 }

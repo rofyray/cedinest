@@ -1,10 +1,10 @@
-import { isEvmAddress } from '../../shared/ids'
-import { chartSeries, dayOf, goalProgress, principalUsd, round2, stampsThisMonth, type DoneJob } from '../../shared/summary-math'
-import { chain } from './chain'
-import { db } from './db'
-import { HttpError } from './http'
-import { fxRows, getPrices } from './prices'
-import { GAS_DEPOSIT, GAS_WITHDRAW, quoteFee } from '../../shared/fees'
+import { isEvmAddress } from '../../shared/ids.js'
+import { chartSeries, dayOf, goalProgress, principalUsd, round2, stampsThisMonth, type DoneJob } from '../../shared/summary-math.js'
+import { chain } from './chain.js'
+import { db } from './db.js'
+import { HttpError } from './http.js'
+import { fxRows, getPrices } from './prices.js'
+import { GAS_DEPOSIT, GAS_WITHDRAW, quoteFee } from '../../shared/fees.js'
 
 export async function buildSummary(ownerParam: string, sessionOwner: string | null, nimAddress?: string | null) {
   if (!isEvmAddress(ownerParam)) throw new HttpError(400, 'bad_request', 'owner must be a 0x address')

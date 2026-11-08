@@ -4,12 +4,12 @@
  * Every failure maps to a copy key and says what happened to the money.
  */
 import { ref } from 'vue'
-import { api, ApiError, type Quote } from './api'
-import { signPermit } from './evm'
-import { isUserRejection, payNimFee } from './nimiq'
-import { lunaToNim, nim, rawToUsd, usd, usdShort } from './format'
-import { t } from '../copy/en'
-import { refreshNimBalance, store } from '../store'
+import { api, ApiError, type Quote } from './api.js'
+import { signPermit } from './evm.js'
+import { isUserRejection, payNimFee } from './nimiq.js'
+import { lunaToNim, nim, rawToUsd, usd, usdShort } from './format.js'
+import { t } from '../copy/en.js'
+import { refreshNimBalance, store } from '../store.js'
 
 export type FlowState = 'idle' | 'quoting' | 'approve-fee' | 'approve-permit' | 'sending'
 export type FlowError = { title?: string; body: string; code: string }

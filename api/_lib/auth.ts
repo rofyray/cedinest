@@ -1,9 +1,9 @@
 import { createHmac, randomBytes } from 'node:crypto'
 import { verifyMessage } from 'viem'
-import { isEvmAddress } from '../../shared/ids'
-import { db } from './db'
-import { env } from './env'
-import { bearer, HttpError } from './http'
+import { isEvmAddress } from '../../shared/ids.js'
+import { db } from './db.js'
+import { env } from './env.js'
+import { bearer, HttpError } from './http.js'
 
 const SESSION_DAYS = 30
 const CHALLENGE_MINUTES = 10

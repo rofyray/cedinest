@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
-import { api, session, type Summary } from './lib/api'
-import { connectEvm, signMessage } from './lib/evm'
-import { nimAccount, nimBalanceLuna, nimiq } from './lib/nimiq'
+import { api, session, type Summary } from './lib/api.js'
+import { connectEvm, signMessage } from './lib/evm.js'
+import { nimAccount, nimBalanceLuna, nimiq } from './lib/nimiq.js'
 
 export type WalletState = 'connecting' | 'ready' | 'no_provider'
 

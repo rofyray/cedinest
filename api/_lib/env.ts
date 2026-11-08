@@ -1,4 +1,4 @@
-import { NIM_FEE_ADDRESS, RELAY_ADDRESS } from '../../shared/constants'
+import { NIM_FEE_ADDRESS, RELAY_ADDRESS } from '../../shared/constants.js'
 
 /** Server configuration. Every value has a safe default so the API boots in dev and tests. */
 export const env = {

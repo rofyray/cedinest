@@ -2,8 +2,8 @@
  * Draws the 1080 x 1920 share image on a canvas from the "Shared image" artboard (360 x 640 at 3x).
  * Never includes amounts: goal, percent, this month's stamps and the tagline only.
  */
-import { ROTATIONS } from '../../shared/stamps'
-import { t } from '../copy/en'
+import { ROTATIONS } from '../../shared/stamps.js'
+import { t } from '../copy/en.js'
 
 export type ShareData = {
   headline: string          // "Yaw is saving for rent."

@@ -1,6 +1,6 @@
-import { sessionOwner } from './_lib/auth'
-import { handler, HttpError, json } from './_lib/http'
-import { buildSummary } from './_lib/summary'
+import { sessionOwner } from './_lib/auth.js'
+import { handler, HttpError, json } from './_lib/http.js'
+import { buildSummary } from './_lib/summary.js'
 
 export const GET = handler(async (req) => {
   const url = new URL(req.url)

@@ -5,10 +5,10 @@ import CediChart from '../components/CediChart.vue'
 import ErrorNote from '../components/ErrorNote.vue'
 import GoalRow from '../components/GoalRow.vue'
 import StampCard from '../components/StampCard.vue'
-import { t } from '../copy/en'
-import { apyPercent, cardNumber, ghs, greetingKey, monthName, rawToUsd, usd } from '../lib/format'
-import { pendingJob } from '../lib/flow'
-import { displayName, loadSummary, store } from '../store'
+import { t } from '../copy/en.js'
+import { apyPercent, cardNumber, ghs, greetingKey, monthName, rawToUsd, usd } from '../lib/format.js'
+import { pendingJob } from '../lib/flow.js'
+import { displayName, loadSummary, store } from '../store.js'
 
 const router = useRouter()
 const s = computed(() => store.summary)

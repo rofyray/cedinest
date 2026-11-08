@@ -1,7 +1,7 @@
-import { FX_URL, PRICE_URL } from '../../shared/constants'
-import { dayOf } from '../../shared/summary-math'
-import { db } from './db'
-import { env } from './env'
+import { FX_URL, PRICE_URL } from '../../shared/constants.js'
+import { dayOf } from '../../shared/summary-math.js'
+import { db } from './db.js'
+import { env } from './env.js'
 
 export type Prices = { nimUsd: number; polUsd: number; usdGhs: number; fxSource: string; at: number }
 

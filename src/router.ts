@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { consent, store } from './store'
+import { consent, store } from './store.js'
 
 export const router = createRouter({
   history: createWebHistory(),

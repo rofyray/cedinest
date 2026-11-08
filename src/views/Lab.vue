@@ -7,10 +7,10 @@
 import { ref } from 'vue'
 import { createPublicClient, fallback, http, parseSignature } from 'viem'
 import { polygon } from 'viem/chains'
-import { erc20Abi } from '../../shared/abi'
-import { A_POL_USDT, POLYGON_RPC, USDT0 } from '../../shared/constants'
-import { connectEvm, signPermit } from '../lib/evm'
-import { nimAccount, payNimFee } from '../lib/nimiq'
+import { erc20Abi } from '../../shared/abi.js'
+import { A_POL_USDT, POLYGON_RPC, USDT0 } from '../../shared/constants.js'
+import { connectEvm, signPermit } from '../lib/evm.js'
+import { nimAccount, payNimFee } from '../lib/nimiq.js'
 
 const out = ref<string[]>([])
 const log = (label: string, v: unknown) => { out.value.unshift(`${new Date().toISOString().slice(11, 19)} ${label}: ${typeof v === 'string' ? v : JSON.stringify(v, (_k, x) => (typeof x === 'bigint' ? x.toString() : x), 2)}`) }

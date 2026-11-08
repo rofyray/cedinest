@@ -3,13 +3,13 @@ import {
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { polygon } from 'viem/chains'
-import { erc20Abi, poolAbi, relayAbi } from '../../shared/abi'
-import { apyFromLiquidityRate, reserveFlags } from '../../shared/apy'
-import { A_POL_USDT, AAVE_POOL, POLYGON_RPC, USDT0 } from '../../shared/constants'
-import { makeNimRpc, waitForFinalNimPayment } from '../../shared/nimiq-verify'
-import type { Chain, RelayCall } from './chain'
-import { db } from './db'
-import { env } from './env'
+import { erc20Abi, poolAbi, relayAbi } from '../../shared/abi.js'
+import { apyFromLiquidityRate, reserveFlags } from '../../shared/apy.js'
+import { A_POL_USDT, AAVE_POOL, POLYGON_RPC, USDT0 } from '../../shared/constants.js'
+import { makeNimRpc, waitForFinalNimPayment } from '../../shared/nimiq-verify.js'
+import type { Chain, RelayCall } from './chain.js'
+import { db } from './db.js'
+import { env } from './env.js'
 
 export function realChain(): Chain {
   const urls = env.polygonRpcUrl ? [env.polygonRpcUrl, ...POLYGON_RPC] : [...POLYGON_RPC]

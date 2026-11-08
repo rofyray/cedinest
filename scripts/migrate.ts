@@ -1,5 +1,5 @@
 /** Applies db/schema.sql to DATABASE_URL (idempotent). */
-import { db } from '../api/_lib/db'
+import { db } from '../api/_lib/db.js'
 
 if (!process.env.DATABASE_URL) { console.error('set DATABASE_URL'); process.exit(2) }
 const d = await db()

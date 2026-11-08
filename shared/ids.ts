@@ -1,4 +1,4 @@
-import { MEMO_PREFIX } from './constants'
+import { MEMO_PREFIX } from './constants.js'
 
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz234567' // base32, lower case, 5 bits per char
 

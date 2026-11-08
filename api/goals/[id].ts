@@ -1,8 +1,8 @@
-import { isGoalId } from '../../shared/ids'
-import { requireSession } from '../_lib/auth'
-import { db } from '../_lib/db'
-import { handler, HttpError, json, readJson } from '../_lib/http'
-import { goalRow, validateGoal } from './index'
+import { isGoalId } from '../../shared/ids.js'
+import { requireSession } from '../_lib/auth.js'
+import { db } from '../_lib/db.js'
+import { handler, HttpError, json, readJson } from '../_lib/http.js'
+import { goalRow, validateGoal } from './index.js'
 
 export const GET = handler(async (req, { params }) => {
   const owner = await requireSession(req)

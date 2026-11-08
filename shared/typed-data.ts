@@ -1,7 +1,7 @@
 import { recoverTypedDataAddress, type Hex } from 'viem'
 import {
   APOLUSDT_DOMAIN, APOLUSDT_DOMAIN_TYPE, PERMIT_TYPES, USDT0_DOMAIN, USDT0_DOMAIN_TYPE,
-} from './constants'
+} from './constants.js'
 
 export type PermitToken = 'usdt0' | 'apolusdt'
 

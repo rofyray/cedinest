@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { privateKeyToAccount } from 'viem/accounts'
-import { MAX_UINT256 } from '../../shared/constants'
-import { ageQuotes, body, freshApi, OWNER, randomNimHash, req, signIn, signPermit, waitForJob } from './helpers'
+import { MAX_UINT256 } from '../../shared/constants.js'
+import { ageQuotes, body, freshApi, OWNER, randomNimHash, req, signIn, signPermit, waitForJob } from './helpers.js'
 
 let api: Awaited<ReturnType<typeof freshApi>>
 

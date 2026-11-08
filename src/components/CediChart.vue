@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { t } from '../copy/en'
-import { ghs, ghsWhole, percentChange, shortDate } from '../lib/format'
+import { t } from '../copy/en.js'
+import { ghs, ghsWhole, percentChange, shortDate } from '../lib/format.js'
 
 type Point = { day: string; savingsGhs: number; keptInCedisGhs: number }
 const props = defineProps<{ points: Point[] }>()

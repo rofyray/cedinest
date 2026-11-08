@@ -1,5 +1,5 @@
-import { handler, json, readJson } from './_lib/http'
-import { createQuote } from './_lib/jobs'
+import { handler, json, readJson } from './_lib/http.js'
+import { createQuote } from './_lib/jobs.js'
 
 export const POST = handler(async (req) => {
   const body = await readJson(req)

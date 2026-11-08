@@ -1,6 +1,6 @@
 import { recoverTypedDataAddress } from 'viem'
-import { POLYGON_CHAIN_ID_HEX } from '../../shared/constants'
-import { permitTypedData, permitTypedDataJson, type PermitFields, type PermitToken } from '../../shared/typed-data'
+import { POLYGON_CHAIN_ID_HEX } from '../../shared/constants.js'
+import { permitTypedData, permitTypedDataJson, type PermitFields, type PermitToken } from '../../shared/typed-data.js'
 
 type Eip1193 = { request(args: { method: string; params?: unknown[] }): Promise<any> }
 

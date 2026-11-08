@@ -5,11 +5,11 @@ import ErrorNote from '../components/ErrorNote.vue'
 import GoalRow from '../components/GoalRow.vue'
 import ShareCard from '../components/ShareCard.vue'
 import StampMark from '../components/StampMark.vue'
-import { t } from '../copy/en'
-import { api, type Job } from '../lib/api'
-import { pendingJob } from '../lib/flow'
-import { rawToUsd, shortDate, stampLine, usd, usdShort, usdt } from '../lib/format'
-import { displayName, loadSummary, store } from '../store'
+import { t } from '../copy/en.js'
+import { api, type Job } from '../lib/api.js'
+import { pendingJob } from '../lib/flow.js'
+import { rawToUsd, shortDate, stampLine, usd, usdShort, usdt } from '../lib/format.js'
+import { displayName, loadSummary, store } from '../store.js'
 
 const props = defineProps<{ id: string }>()
 const router = useRouter()

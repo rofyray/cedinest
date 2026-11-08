@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { t } from '../copy/en'
-import { store } from '../store'
+import { t } from '../copy/en.js'
+import { store } from '../store.js'
 </script>
 
 <template>

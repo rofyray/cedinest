@@ -1,7 +1,7 @@
-import { newGoalId } from '../../shared/ids'
-import { requireSession } from '../_lib/auth'
-import { db } from '../_lib/db'
-import { handler, HttpError, json, readJson } from '../_lib/http'
+import { newGoalId } from '../../shared/ids.js'
+import { requireSession } from '../_lib/auth.js'
+import { db } from '../_lib/db.js'
+import { handler, HttpError, json, readJson } from '../_lib/http.js'
 
 export function validateGoal(body: any, partial = false) {
   const out: { name?: string; targetGhs?: number; targetDate?: string | null } = {}

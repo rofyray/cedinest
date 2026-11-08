@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { ROTATIONS } from '../../shared/stamps'
-import { t } from '../copy/en'
-import { monthNameLong } from '../lib/format'
-import { canvasToBlob, drawShareImage } from '../lib/share-image'
+import { ROTATIONS } from '../../shared/stamps.js'
+import { t } from '../copy/en.js'
+import { monthNameLong } from '../lib/format.js'
+import { canvasToBlob, drawShareImage } from '../lib/share-image.js'
 
 const props = defineProps<{
   name: string | null

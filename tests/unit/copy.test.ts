@@ -5,7 +5,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { en, t } from '../../src/copy/en'
+import { en, t } from '../../src/copy/en.js'
 
 function walk(dir: string, out: string[] = []) {
   for (const f of readdirSync(dir)) {

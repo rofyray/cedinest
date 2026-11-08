@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { t } from '../copy/en'
-import { api } from '../lib/api'
-import { apyPercent } from '../lib/format'
-import { isUserRejection } from '../lib/nimiq'
-import { consent, ensureSignedIn, loadSummary, localName, store } from '../store'
+import { t } from '../copy/en.js'
+import { api } from '../lib/api.js'
+import { apyPercent } from '../lib/format.js'
+import { isUserRejection } from '../lib/nimiq.js'
+import { consent, ensureSignedIn, loadSummary, localName, store } from '../store.js'
 
 const router = useRouter()
 const route = useRoute()
