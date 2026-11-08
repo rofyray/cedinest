@@ -21,6 +21,7 @@ const ZERO_NIM = 'NQ000000000000000000000000000000000000'
 export function missingConfig(): string[] {
   if (env.chainMode === 'mock') return []
   const missing: string[] = []
+  if (!env.databaseUrl) missing.push('DATABASE_URL')
   if (!env.relayerKey) missing.push('RELAYER_PRIVATE_KEY')
   if (env.relayAddress.toLowerCase() === ZERO) missing.push('RELAY_ADDRESS')
   if (env.nimFeeAddress.replace(/\s+/g, '').toUpperCase() === ZERO_NIM) missing.push('NIM_FEE_ADDRESS')
