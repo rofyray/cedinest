@@ -25,6 +25,7 @@ export function resetDbForTests() {
 
 async function createDriver(): Promise<Driver> {
   const url = env.databaseUrl
+  if (!url && process.env.VERCEL) throw new Error('DATABASE_URL is not set')
   if (!url || url.startsWith('pglite://') || url === 'memory') return pgliteDriver(url.replace('pglite://', ''))
   return neonDriver(url)
 }

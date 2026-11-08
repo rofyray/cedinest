@@ -15,7 +15,7 @@ export const env = {
 }
 
 const ZERO = '0x0000000000000000000000000000000000000000'
-const ZERO_NIM = 'NQ000000000000000000000000000000000000'
+const ZERO_NIM = NIM_FEE_ADDRESS.replace(/\s+/g, '').toUpperCase()
 
 /** What is missing before real saves can happen. Empty in mock mode. */
 export function missingConfig(): string[] {
