@@ -1,0 +1,33 @@
+{
+  "name": "cedinest-contracts",
+  "version": "1.0.0",
+  "description": "CediNestRelay: USDT0 -> Aave v3 relay on Polygon",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:fork": "hardhat test test/raw-permit.fork.test.ts test/relay.fork.test.ts",
+    "deploy:polygon": "hardhat run scripts/deploy.ts --network polygon",
+    "check-domains": "hardhat run scripts/check-domains.ts",
+    "check-domains:polygon": "hardhat run scripts/check-domains.ts --network polygon",
+    "smoke:polygon": "hardhat run scripts/smoke-mainnet.ts --network polygon",
+    "abi": "node -e \"require('fs').writeFileSync('abi/CediNestRelay.json', JSON.stringify(require('./artifacts/contracts/CediNestRelay.sol/CediNestRelay.json').abi, null, 2) + '\\\\n')\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.6.1",
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^26.6.6",
+    "dotenv": "^18.0.9",
+    "hardhat": "2.26.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  },
+  "private": true
+}

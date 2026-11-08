@@ -1,0 +1,34 @@
+# deps and builds
+node_modules
+dist
+dist-ssr
+.vercel
+*.local
+*.log
+coverage
+test-results
+playwright-report
+.pglite
+
+# env and secrets
+.env
+.env.*
+!.env.example
+
+# contracts
+contracts/node_modules
+contracts/cache
+contracts/artifacts
+contracts/typechain-types
+contracts/ignition/deployments
+
+# planning, research and design files stay out of the repo
+prd.md
+docs/
+*.prd.md
+*.plan.md
+research/
+design/
+notes/
+
+.DS_Store

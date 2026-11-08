@@ -1,0 +1,17 @@
+:root {
+  --paper: #EFE6D4;       /* page ground */
+  --card: #FFFBF2;        /* cards and slips */
+  --card-today: #FFF6E3;  /* today's cell */
+  --rule: #D9CDB4;        /* card borders */
+  --rule-soft: #E6DCC7;   /* dividers, empty bars */
+  --dash: #C9BC9F;        /* empty stamp boxes */
+  --ink: #23301F;         /* text */
+  --muted: #545A49;       /* secondary text, 4.5:1+ on card */
+  --stamp: #9C3A22;       /* stamps, primary button, brand "Nest" */
+  --grow: #2E5A39;        /* earnings, progress */
+  --neutral-line: #8A8572;/* "kept in cedis" dashed line */
+  --radius-card: 14px;
+  --radius-control: 12px;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui: 'Public Sans', system-ui, sans-serif;
+}
