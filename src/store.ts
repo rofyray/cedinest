@@ -1,12 +1,19 @@
 import { reactive } from 'vue'
 import { api, session, type Summary } from './lib/api.js'
 import { connectEvm, signMessage } from './lib/evm.js'
-import { nimAccount, nimBalanceLuna, nimiq } from './lib/nimiq.js'
+import { isUserRejection, nimAccount, nimBalanceLuna, nimiq } from './lib/nimiq.js'
 
-export type WalletState = 'connecting' | 'ready' | 'no_provider'
+/**
+ * connecting: waiting for Nimiq Pay. ready: both accounts known.
+ * no_provider: not inside Nimiq Pay (the SDK found no provider). rejected: the user dismissed a prompt.
+ * no_evm: Nimiq Pay gave no Polygon account or would not switch to Polygon. error: anything else.
+ */
+export type WalletState = 'connecting' | 'ready' | 'no_provider' | 'rejected' | 'no_evm' | 'error'
 
 export const store = reactive({
   wallet: 'connecting' as WalletState,
+  /** Raw message of the last connection failure, shown under "Technical details" on the gate. */
+  walletError: '' as string,
   owner: '' as `0x${string}` | '',
   nimAddress: '',
   nimBalanceLuna: null as bigint | null,
@@ -32,22 +39,59 @@ export const localName = {
 
 let connectPromise: Promise<void> | null = null
 
-/** Connects to Nimiq Pay (NIM) and the injected Polygon provider once. */
+function failWallet(state: Exclude<WalletState, 'connecting' | 'ready'>, e: unknown) {
+  console.warn('[wallet]', state, e)
+  store.walletError = String((e as any)?.message ?? e ?? '')
+  store.wallet = state
+}
+
+/**
+ * Connects to Nimiq Pay (NIM) and the injected Polygon provider once.
+ * The two account prompts run one after the other: Nimiq Pay shows one sheet at a time.
+ */
 export function connectWallet() {
   connectPromise ??= (async () => {
     try {
       await nimiq()
-      const [nim, owner] = await Promise.all([nimAccount(), connectEvm()])
+    } catch (e) {
+      failWallet('no_provider', e)
+      return
+    }
+    try {
+      const nim = await nimAccount()
+      const owner = await connectEvm()
       store.nimAddress = nim
       store.owner = owner
+      store.walletError = ''
       store.wallet = 'ready'
       void refreshNimBalance()
     } catch (e) {
-      console.warn('[wallet]', e)
-      store.wallet = 'no_provider'
+      const msg = String((e as any)?.message ?? e ?? '')
+      if (isUserRejection(e)) failWallet('rejected', e)
+      else if (/no_evm_provider|no_evm_account|wrong_chain/.test(msg)) failWallet('no_evm', e)
+      else failWallet('error', e)
     }
   })()
   return connectPromise
+}
+
+/** Forgets the last attempt and connects again (the gate's "Try again"). */
+export function retryWallet() {
+  connectPromise = null
+  store.walletError = ''
+  store.wallet = 'connecting'
+  return connectWallet()
+}
+
+/** What the page can see of the host, for the gate's technical details. */
+export function hostInfo() {
+  const w = window as any
+  return [
+    `nimiqPay ${w.nimiqPay ? 'yes' : 'no'}`,
+    `nimiq ${w.nimiq ? 'yes' : 'no'}`,
+    `ethereum ${w.ethereum ? 'yes' : 'no'}`,
+    w.nimiqPay?.network ? `network ${w.nimiqPay.network}` : '',
+  ].filter(Boolean).join(' · ')
 }
 
 export async function refreshNimBalance() {

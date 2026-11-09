@@ -12,6 +12,14 @@ export const en = {
     title: 'Open CediNest inside Nimiq Pay',
     body: 'CediNest works inside the Nimiq Pay app. Open Nimiq Pay, go to Mini Apps and find CediNest.',
     waiting: 'Connecting to Nimiq Pay…',
+    rejectedTitle: 'Connect CediNest to Nimiq Pay',
+    rejectedBody: 'Nimiq Pay asks to share your NIM account and your Polygon account. Allow both so CediNest can show your savings.',
+    noEvmTitle: 'No Polygon account yet',
+    noEvmBody: 'CediNest needs the Polygon account that holds your USDT. In Nimiq Pay, switch the balance to USDT once, then try again.',
+    errorTitle: 'Could not connect to Nimiq Pay',
+    errorBody: 'Something went wrong while connecting. Try again, and if it keeps happening send us the technical details below.',
+    retry: 'Try again',
+    details: 'Technical details',
   },
 
   welcome: {

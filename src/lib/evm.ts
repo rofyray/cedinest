@@ -21,9 +21,14 @@ export async function connectEvm(): Promise<`0x${string}`> {
 
 export async function ensurePolygon() {
   const chainId = await eth().request({ method: 'eth_chainId' })
-  if (chainId !== POLYGON_CHAIN_ID_HEX) {
+  if (chainId === POLYGON_CHAIN_ID_HEX) return
+  try {
     await eth().request({ method: 'wallet_switchEthereumChain', params: [{ chainId: POLYGON_CHAIN_ID_HEX }] })
+  } catch {
+    // Some hosts do not implement the switch; what matters is the chain we end up on.
   }
+  const after = await eth().request({ method: 'eth_chainId' })
+  if (after !== POLYGON_CHAIN_ID_HEX) throw new Error(`wrong_chain:${after}`)
 }
 
 /** Signs an EIP-2612 permit in Nimiq Pay and checks locally that the signer is the owner. */
