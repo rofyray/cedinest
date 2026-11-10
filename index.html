@@ -84,7 +84,7 @@
     <a class="primary" href="https://cedinest.vercel.app">Open cedinest.vercel.app</a>
     <a href="https://github.com/rofyray/cedinest">Source on GitHub</a>
   </div>
-  <p class="caption">In Nimiq Pay: Mini Apps › Custom URL › <code>https://cedinest.vercel.app</code> until the directory listing goes live.</p>
+  <p class="caption">Nimiq Pay: Mini Apps › CediNest</p>
 
   <h2>Why this exists</h2>
   <p>Money saved in cedis loses value while it sits. Over the last few years the cedi has swung hard against the dollar, so the people with the clearest reason to save, for rent advance or school fees, are the ones most exposed. In Ghana, landlords commonly ask for one or two years of rent up front, so a rent goal is big, slow and easy to lose to the exchange rate.</p>
@@ -139,10 +139,6 @@ export const USDT0_DOMAIN = {
                                    ↘ refund_due  (fee paid, relay failed or the user cancelled the signature)</code></pre>
   <p>If the user cancels the signature after paying the fee, the app files the job anyway so the fee shows up in a daily refund list. Every error message says what happened to the money, because that is the only question a saver has at that moment.</p>
 
-  <h2>Gotcha four: the stamp card is a layout problem</h2>
-  <p>The stamp on the done screen carries the amount, the date and the goal name. "RENT ADVANCE" is longer than "RENT" and wrapped mid-word outside the rim. The fix was to render the date and the goal as separate lines, each clipped to the circle. It is a small thing on the one screen people screenshot.</p>
-  <p>Phones added two more. Tapping outside a text field does not close the keyboard on iOS, so the Stamp It button hid behind the keypad until the app learned to blur the field on any touch outside it. And the router kept the scroll position between screens, so opening Take Out from the bottom of the home screen landed mid-page.</p>
-
   <h2>Stack</h2>
   <table>
     <tr><th>Layer</th><th>Choice</th><th>Why</th></tr>
@@ -176,7 +172,7 @@ export const USDT0_DOMAIN = {
 
   <div class="card">
     <p class="stamp-note">Small small, e go reach.</p>
-    <p>Try it in Nimiq Pay: Mini Apps › Custom URL › <a href="https://cedinest.vercel.app">cedinest.vercel.app</a>. The code is MIT licensed at <a href="https://github.com/rofyray/cedinest">github.com/rofyray/cedinest</a>, and the <a href="https://youtu.be/yc5u1duo5Mo">demo video</a> shows a real one dollar save and a full withdrawal.</p>
+    <p>Try it in Nimiq Pay: Mini Apps › CediNest, or open <a href="https://cedinest.vercel.app">cedinest.vercel.app</a>. The code is MIT licensed at <a href="https://github.com/rofyray/cedinest">github.com/rofyray/cedinest</a>, and the <a href="https://youtu.be/yc5u1duo5Mo">demo video</a> shows a real one dollar save and a full withdrawal.</p>
   </div>
 
   <footer>
