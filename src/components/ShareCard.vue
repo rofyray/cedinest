@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Brand from './Brand.vue'
 import { computed, ref } from 'vue'
 import { ROTATIONS } from '../../shared/stamps.js'
 import { t } from '../copy/en.js'
@@ -56,7 +57,7 @@ async function share() {
   <section class="share" :aria-label="t('share.title')">
     <h2>{{ t('share.title') }}</h2>
     <div class="card preview" :aria-label="t('share.previewAria')" data-testid="share-preview">
-      <div class="head"><span class="brand small-brand">Cedi<em>Nest</em></span><span class="small muted">{{ monthLabel }}</span></div>
+      <div class="head"><Brand size="small" class="small-brand" /><span class="small muted">{{ monthLabel }}</span></div>
       <div class="headline">{{ headline }}</div>
       <div class="dots" aria-hidden="true">
         <span v-for="(d, i) in stampedDays.slice(0, 6)" :key="d" class="dot stamped" :style="{ transform: `rotate(${ROTATIONS[i % ROTATIONS.length]}deg)` }"></span>

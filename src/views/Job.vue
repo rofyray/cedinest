@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Brand from '../components/Brand.vue'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import ErrorNote from '../components/ErrorNote.vue'
@@ -78,7 +79,7 @@ onBeforeUnmount(() => window.clearInterval(timer))
 
 <template>
   <main class="screen job" :class="{ done }">
-    <div class="topbar"><div class="brand">Cedi<em>Nest</em></div></div>
+    <div class="topbar"><Brand /></div>
 
     <ErrorNote v-if="loadError" :body="loadError" />
 

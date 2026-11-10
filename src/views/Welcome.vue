@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Brand from '../components/Brand.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { t } from '../copy/en.js'
@@ -38,7 +39,7 @@ async function start() {
 
 <template>
   <main class="screen">
-    <div class="topbar"><div class="brand">Cedi<em>Nest</em></div></div>
+    <div class="topbar"><Brand /></div>
     <h1 class="title">{{ t('welcome.title') }}</h1>
     <ol class="points">
       <li>{{ t('welcome.point1', { apy }) }}</li>

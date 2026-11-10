@@ -47,14 +47,22 @@ export async function drawShareImage(data: ShareData): Promise<HTMLCanvasElement
   ctx.fillStyle = COLORS.paper
   ctx.fillRect(0, 0, 360, 640)
 
-  // Header
+  // Header: the mark, then the wordmark
+  let x = 24
+  try {
+    const mark = new Image()
+    mark.src = '/logo-mark.svg'
+    await mark.decode()
+    ctx.drawImage(mark, x, 30, 34, 28)
+    x += 34 + 8
+  } catch { /* no mark, the wordmark alone is fine */ }
   ctx.textBaseline = 'alphabetic'
   ctx.font = display(24)
   ctx.fillStyle = COLORS.ink
-  ctx.fillText('Cedi', 24, 52)
+  ctx.fillText('Cedi', x, 52)
   const cediW = ctx.measureText('Cedi').width
   ctx.fillStyle = COLORS.stamp
-  ctx.fillText('Nest', 24 + cediW, 52)
+  ctx.fillText('Nest', x + cediW, 52)
   ctx.font = ui(12, 600)
   ctx.fillStyle = COLORS.muted
   ctx.textAlign = 'right'

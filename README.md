@@ -1,3 +1,5 @@
+<p><img src="assets/brand/wordmark.png" width="480" alt="CediNest" /></p>
+
 # CediNest
 
 **Save in dollars. See it in cedis.**

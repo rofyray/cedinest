@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Brand from '../components/Brand.vue'
 import { computed, ref } from 'vue'
 import { t } from '../copy/en.js'
 import { hostInfo, retryWallet, store } from '../store.js'
@@ -21,7 +22,7 @@ async function retry() {
 
 <template>
   <main class="screen gate">
-    <div class="brand" aria-hidden="true">Cedi<em>Nest</em></div>
+    <Brand size="hero" aria-hidden="true" />
     <div v-if="store.wallet === 'connecting'" class="wait" role="status">
       <div class="dot" aria-hidden="true"></div>
       <p>{{ t('gate.waiting') }}</p>

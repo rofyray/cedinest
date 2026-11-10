@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Brand from '../components/Brand.vue'
 import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import CediChart from '../components/CediChart.vue'
@@ -44,7 +45,7 @@ onBeforeUnmount(() => {
   <main class="screen home">
     <header class="top">
       <div>
-        <div class="brand">Cedi<em>Nest</em></div>
+        <Brand />
         <div class="small muted tag">{{ t('brand.tagline') }}</div>
       </div>
       <div class="small muted" data-testid="card-number">{{ t('home.cardNumber', { number: cardNumber(store.owner), month: monthName(new Date()) }) }}</div>
