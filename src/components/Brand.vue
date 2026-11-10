@@ -1,20 +1,20 @@
 <script setup lang="ts">
-/** The CediNest mark next to the wordmark. The mark is inline so it needs no request and inherits nothing. */
+/** The CediNest mark next to the wordmark. */
 defineProps<{ size?: 'topbar' | 'small' | 'hero' }>()
 </script>
 
 <template>
   <span class="brand" :class="size ?? 'topbar'">
-    <svg class="mark" viewBox="4 12 92 76" aria-hidden="true" focusable="false"><defs><clipPath id="cn-bowl"><path d="M6 56A44 30 0 0 0 94 56A44 14 0 0 1 6 56Z"/></clipPath></defs><ellipse cx="50" cy="56" rx="44" ry="14" fill="#23301F"/><ellipse cx="50" cy="56" rx="38" ry="10" fill="none" stroke="#EFE6D4" stroke-width="1.7"/><g transform="rotate(-8 50 42)" fill="none" stroke="#9C3A22" stroke-linecap="round"><circle cx="50" cy="42" r="28" fill="#FFFBF2" stroke-width="4.5"/><circle cx="50" cy="42" r="23" stroke-width="1.6"/><path d="M58.03 32.36A12.5 12.5 0 1 0 58.03 51.64" stroke-width="5"/><path d="M50 26.5V57.5" stroke-width="2.8"/></g><path d="M6 56A44 30 0 0 0 94 56A44 14 0 0 1 6 56Z" fill="#23301F"/><g clip-path="url(#cn-bowl)" fill="none" stroke="#EFE6D4" stroke-linecap="round"><path d="M9 56A41 11.5 0 0 0 91 56" stroke-width="1.7"/><path d="M12.8 56A37.2 25.5 0 0 0 87.2 56" stroke-width="2.2"/><path d="M20 56A30 20.5 0 0 0 80 56" stroke-width="1.8"/><path d="M29 56A21 14.5 0 0 0 71 56" stroke-width="2.2"/></g></svg>
+    <img class="mark" src="/logo-mark.png" alt="" width="595" height="482" decoding="async" />
     <span>Cedi<em>Nest</em></span>
   </span>
 </template>
 
 <style scoped>
 .brand { display: inline-flex; align-items: center; gap: 8px; }
-.mark { width: 30px; height: auto; flex: none; }
+.mark { width: 34px; height: auto; flex: none; }
 .small { gap: 6px; }
-.small .mark { width: 22px; }
+.small .mark { width: 24px; }
 .hero { flex-direction: column; gap: 12px; font-size: 28px; }
-.hero .mark { width: 96px; }
+.hero .mark { width: 120px; }
 </style>

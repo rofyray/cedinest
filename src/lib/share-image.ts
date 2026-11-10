@@ -51,10 +51,10 @@ export async function drawShareImage(data: ShareData): Promise<HTMLCanvasElement
   let x = 24
   try {
     const mark = new Image()
-    mark.src = '/logo-mark.svg'
+    mark.src = '/logo-mark.png'
     await mark.decode()
-    ctx.drawImage(mark, x, 30, 34, 28)
-    x += 34 + 8
+    ctx.drawImage(mark, x, 29, 36, 29)
+    x += 36 + 8
   } catch { /* no mark, the wordmark alone is fine */ }
   ctx.textBaseline = 'alphabetic'
   ctx.font = display(24)

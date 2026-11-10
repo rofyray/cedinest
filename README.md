@@ -1,4 +1,4 @@
-<p><img src="assets/brand/wordmark.png" width="480" alt="CediNest" /></p>
+<p><img src="assets/brand/wordmark.png" width="520" alt="CediNest" /></p>
 
 # CediNest
 
