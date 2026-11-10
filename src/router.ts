@@ -3,6 +3,8 @@ import { consent, store } from './store.js'
 
 export const router = createRouter({
   history: createWebHistory(),
+  // Every screen starts at the top; going back returns to where the user was.
+  scrollBehavior: (_to, _from, saved) => saved ?? { top: 0 },
   routes: [
     { path: '/', name: 'home', component: () => import('./views/Home.vue') },
     { path: '/welcome', name: 'welcome', component: () => import('./views/Welcome.vue') },

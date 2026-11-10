@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
       <section class="goals" :aria-label="t('home.goalsTitle')">
         <div class="goals-head">
           <h2>{{ t('home.goalsTitle') }}</h2>
-          <router-link to="/goals/new" class="btn btn-ghost" data-testid="new-goal">{{ t('home.newGoal') }}</router-link>
+          <router-link to="/goals/new" class="btn btn-pill" data-testid="new-goal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{ t('home.newGoal') }}</router-link>
         </div>
         <template v-if="s.goalsLocked">
           <router-link to="/goals/new" class="card small muted locked">{{ t('home.goalsLocked') }}</router-link>
@@ -129,7 +129,7 @@ onBeforeUnmount(() => {
 .empty { display: flex; flex-direction: column; gap: 6px; }
 .empty h2 { font-size: 18px; }
 .goals { display: flex; flex-direction: column; gap: 8px; }
-.goals-head { display: flex; justify-content: space-between; align-items: baseline; }
+.goals-head { display: flex; justify-content: space-between; align-items: center; }
 .goals h2 { font-size: 18px; }
 .locked { display: block; text-decoration: none; }
 </style>

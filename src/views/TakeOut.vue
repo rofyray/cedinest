@@ -23,6 +23,7 @@ const nimBalance = computed(() => (store.nimBalanceLuna != null ? lunaToNim(stor
 const nothing = computed(() => !!s.value && savedUsd.value === 0)
 const valid = computed(() => !nothing.value && !!raw.value && amountUsd.value > 0 && amountUsd.value <= savedUsd.value + 0.000001)
 const busy = computed(() => flow.state.value !== 'idle')
+const lowNim = computed(() => nimBalance.value != null && nimBalance.value < fee.value.nim)
 
 const ctaLabel = computed(() => ({
   idle: t('takeOut.cta'), quoting: t('save.working'), 'approve-fee': t('save.waitingFee'), 'approve-permit': t('save.waitingSign'), sending: t('save.sending'),
@@ -52,7 +53,7 @@ async function takeOut() {
     <div v-if="!everything" class="field">
       <div class="amount">
         <span class="cur">$</span>
-        <input id="amt" v-model="amount" inputmode="decimal" autocomplete="off" placeholder="0.00" :disabled="busy" data-testid="amount-input" />
+        <input id="amt" v-model="amount" inputmode="decimal" enterkeyhint="done" autocomplete="off" placeholder="0.00" :disabled="busy" data-testid="amount-input" />
         <span class="small muted">{{ t('common.usdt') }}</span>
       </div>
       <div class="small muted">{{ t('takeOut.inSavings', { usd: usd(savedUsd) }) }}</div>
@@ -71,6 +72,7 @@ async function takeOut() {
       {{ t('save.approval1', { nim: fee.nim }) }}<br />
       {{ everything ? t('takeOut.approval2All') : t('takeOut.approval2', { amount: Math.round(amountUsd) }) }}
     </div>
+    <div v-if="lowNim" class="note" role="status">{{ t('errors.lowNim', { have: nim(nimBalance!).replace(' NIM', ''), fee: fee.nim }) }}</div>
 
     <ErrorNote v-if="flow.error.value" :title="flow.error.value.title" :body="flow.error.value.body" />
     <ErrorNote v-else-if="nothing" :body="t('errors.nothingToTakeOut')" />

@@ -8,21 +8,28 @@ export function nimiq() {
   return providerPromise
 }
 
-export async function nimAccount(): Promise<string> {
+/**
+ * Nimiq Pay lists the wallet address first, then the HTLC that holds the user's spendable NIM.
+ * The wallet address usually reads 0: incoming NIM only rests there until Nimiq Pay moves it into the HTLC.
+ */
+export async function nimAccounts(): Promise<string[]> {
   const p = await nimiq()
-  const [first] = await p.listAccounts()
-  if (!first) throw new Error('no_nim_account')
-  return first
+  const accounts = await p.listAccounts()
+  if (!accounts[0]) throw new Error('no_nim_account')
+  return accounts
 }
 
-export async function nimBalanceLuna(address: string): Promise<bigint | null> {
-  try {
-    const p = await nimiq()
-    const bal = await p.getBalance(address)
-    return typeof bal === 'number' ? BigInt(Math.round(bal)) : null
-  } catch {
-    return null
-  }
+/** Spendable NIM across every account Nimiq Pay lists, or null when none could be read. */
+export async function nimBalanceLuna(addresses: string[]): Promise<bigint | null> {
+  const p = await nimiq()
+  const readings = await Promise.all(addresses.map(async (a) => {
+    try {
+      const bal = await p.getBalance(a)
+      return typeof bal === 'number' ? BigInt(Math.round(bal)) : null
+    } catch { return null }
+  }))
+  const known = readings.filter((r): r is bigint => r != null)
+  return known.length ? known.reduce((a, b) => a + b, 0n) : null
 }
 
 /** Pays the NIM fee. Returns the tx hash; the API decides if it really succeeded. */

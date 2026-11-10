@@ -117,7 +117,7 @@ describe('POST /api/jobs and the state machine', () => {
     expect(s.stamps[0].usd).toBe('20.00')
     expect(s.chart).toHaveLength(1)
     expect(s.chart[0].keptInCedisGhs).toBeCloseTo(20 * 11.7, 2)
-    expect(s.nim.balanceLuna).toBe('1824000000')
+    expect(s.nim.balanceLuna).toBeUndefined()
     expect(s.goalsLocked).toBe(true)
   })
 

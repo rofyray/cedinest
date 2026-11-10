@@ -14,6 +14,7 @@ const shot = (name: string) => page.screenshot({ path: `assets/screenshots/${nam
 async function compactShot(name: string) {
   const viewport = page.viewportSize()!
   await page.setViewportSize({ width: viewport.width, height: 560 })
+  await page.evaluate(() => window.scrollTo(0, 0))
   const height = await page.evaluate(() => document.documentElement.scrollHeight)
   await page.screenshot({ path: `assets/screenshots/${name}.png`, clip: { x: 0, y: 0, width: viewport.width, height } })
   await page.setViewportSize(viewport)
@@ -27,7 +28,7 @@ test('captures the main screens', async () => {
   await page.getByTestId('name-input').fill('Yaw')
   await page.getByTestId('consent-checkbox').check()
   await page.getByTestId('welcome-cta').click()
-  await expect(page.getByText('Your card is empty for now')).toBeVisible()
+  await expect(page.getByText('Your Card Is Empty for Now')).toBeVisible()
   await shot('2-home-empty')
 
   await page.getByTestId('new-goal').click()
@@ -43,7 +44,7 @@ test('captures the main screens', async () => {
   await expect(page.getByTestId('goal-picked')).toHaveText('Rent advance, January')
   await shot('4-save')
   await page.getByTestId('stamp-it').click()
-  await expect(page.getByTestId('done-title')).toHaveText('E enter!')
+  await expect(page.getByTestId('done-title')).toHaveText('E Enter!')
   await shot('5-done')
   await page.getByTestId('back-home').click()
   await expect(page.getByTestId('stamp-summary')).toHaveText('1 stamp · $20 saved')

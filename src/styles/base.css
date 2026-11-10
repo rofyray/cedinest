@@ -15,7 +15,7 @@ h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 700; }
 p { margin: 0; }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; }
-a { color: var(--grow); }
+a { color: var(--grow); text-decoration: none; }
 
 .screen {
   width: 100%;
@@ -47,6 +47,9 @@ a { color: var(--grow); }
 .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); font-weight: 600; font-size: 15px; }
 .btn-ghost { background: transparent; color: var(--grow); border: none; height: 44px; padding: 0 2px; font-weight: 700; font-size: 15px; width: auto; }
 .btn-tall { height: 54px; font-size: 17px; }
+.btn-pill { height: 36px; width: auto; padding: 0 14px 0 10px; border-radius: 18px; background: var(--ink); color: var(--card); font-size: 14px; gap: 6px; }
+.btn-pill svg { flex: none; }
+.btn-ghost svg { flex: none; }
 
 .chip { flex: 1; height: 44px; border-radius: 22px; border: 1.5px solid var(--dash); background: var(--card); color: var(--ink); font-weight: 600; font-size: 15px; }
 .chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--card); font-weight: 700; }

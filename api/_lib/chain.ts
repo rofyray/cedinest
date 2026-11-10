@@ -103,6 +103,7 @@ function mockChain(): Chain {
       }
       return { status: 'final', tx }
     },
-    async nimBalanceLuna() { return 1_824_000_000n },
+    /** The fake node tracks no balances; the mock wallet in the browser answers getBalance. */
+    async nimBalanceLuna() { return null },
   }
 }

@@ -94,8 +94,9 @@ onBeforeUnmount(() => window.clearInterval(timer))
         <StampMark :label="stampLabel" :line="stampLine(stampDate, goal?.name)" :size="104" :press="pressed"
           :aria="t('pending.stampAria', { usd: amountUsd, date: shortDate(stampDate), goal: goal ? `, ${goal.name}` : '' })" />
         <div>
-          <h1 class="done-title" data-testid="done-title">{{ isDeposit ? t('done.title') : t('takeOut.doneTitle', { usd: usd(amountUsd) }) }}</h1>
+          <h1 class="done-title" data-testid="done-title">{{ isDeposit ? t('done.title') : t('takeOut.doneTitle') }}</h1>
           <p v-if="isDeposit" class="done-body">{{ goal ? t('done.body', { usd: usdShort(amountUsd), goal: goal.name.split(',')[0] }) : t('done.bodyNoGoal', { usd: usdShort(amountUsd) }) }}</p>
+          <p v-else class="done-body">{{ t('takeOut.doneBody', { usd: usd(amountUsd) }) }}</p>
         </div>
       </div>
 
@@ -106,7 +107,7 @@ onBeforeUnmount(() => window.clearInterval(timer))
       <section class="slip receipt" :aria-label="t('done.receiptProof')">
         <div class="row"><span class="k">{{ isDeposit ? t('done.receiptSaved') : t('done.receiptTakenOut') }}</span><strong>{{ usdt(amountUsd) }}</strong></div>
         <div class="row"><span class="k">{{ t('done.receiptFee') }}</span><strong>{{ t('save.slipFeeValue', { nim: feeNim ?? '' }) }}</strong></div>
-        <div class="row"><span class="k">{{ t('done.receiptProof') }}</span><a v-if="explorer" :href="explorer" target="_blank" rel="noopener" data-testid="explorer-link">{{ t('pending.explorer') }}</a></div>
+        <div class="row"><span class="k">{{ t('done.receiptProof') }}</span><a v-if="explorer" :href="explorer" target="_blank" rel="noopener" class="proof" data-testid="explorer-link">{{ t('done.receiptProofLink') }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"></path></svg></a></div>
       </section>
 
       <button class="btn btn-secondary back" type="button" data-testid="back-home" @click="router.replace('/')">{{ t('done.back') }}</button>
@@ -139,7 +140,7 @@ onBeforeUnmount(() => window.clearInterval(timer))
 
       <div class="bottom">
         <button class="btn btn-secondary" type="button" @click="router.replace('/')">{{ t('pending.back') }}</button>
-        <a v-if="explorer" :href="explorer" target="_blank" rel="noopener" class="explorer">{{ t('pending.explorer') }}</a>
+        <a v-if="explorer" :href="explorer" target="_blank" rel="noopener" class="btn btn-ghost explorer">{{ t('pending.explorer') }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"></path></svg></a>
       </div>
     </template>
   </main>
@@ -160,13 +161,13 @@ onBeforeUnmount(() => window.clearInterval(timer))
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
 .bottom { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
-.explorer { text-align: center; font-size: 14px; font-weight: 600; padding: 12px; }
+.explorer { align-self: center; font-size: 14px; }
 .done-head { display: flex; align-items: center; gap: 16px; }
 .done-title { font-size: 32px; line-height: 1.05; }
 .done-body { margin-top: 6px; font-size: 15px; line-height: 1.45; }
 .receipt { padding: 4px 14px; gap: 0; font-size: 14px; }
 .receipt .row { padding: 9px 0; border-bottom: 1px solid var(--rule-soft); }
 .receipt .row:last-child { border-bottom: none; }
-.receipt a { font-weight: 700; }
+.receipt .proof { font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
 .back { margin-top: auto; font-weight: 700; }
 </style>

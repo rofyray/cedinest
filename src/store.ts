@@ -1,7 +1,7 @@
 import { reactive } from 'vue'
 import { api, session, type Summary } from './lib/api.js'
 import { connectEvm, signMessage } from './lib/evm.js'
-import { isUserRejection, nimAccount, nimBalanceLuna, nimiq } from './lib/nimiq.js'
+import { isUserRejection, nimAccounts, nimBalanceLuna, nimiq } from './lib/nimiq.js'
 
 /**
  * connecting: waiting for Nimiq Pay. ready: both accounts known.
@@ -16,7 +16,11 @@ export const store = reactive({
   walletError: '' as string,
   owner: '' as `0x${string}` | '',
   nimAddress: '',
+  /** Wallet address first, then the current HTLC. Nimiq Pay swaps the HTLC without a new approval. */
+  nimAccounts: [] as string[],
+  /** Best known spendable NIM: the higher of Nimiq Pay's own reading and the Nimiq RPC's. */
   nimBalanceLuna: null as bigint | null,
+  nimReadings: { pay: null as bigint | null, rpc: null as bigint | null },
   summary: null as Summary | null,
   summaryError: '' as string,
   loadingSummary: false,
@@ -58,13 +62,19 @@ export function connectWallet() {
       return
     }
     try {
-      const nim = await nimAccount()
+      const accounts = await nimAccounts()
       const owner = await connectEvm()
-      store.nimAddress = nim
+      store.nimAccounts = accounts
+      store.nimAddress = accounts[0]!
       store.owner = owner
       store.walletError = ''
       store.wallet = 'ready'
       void refreshNimBalance()
+      const p = await nimiq()
+      p.on('accountsChanged', (next) => {
+        if (Array.isArray(next) && next[0]) { store.nimAccounts = next; store.nimAddress = next[0] }
+        void refreshNimBalance()
+      })
     } catch (e) {
       const msg = String((e as any)?.message ?? e ?? '')
       if (isUserRejection(e)) failWallet('rejected', e)
@@ -94,9 +104,19 @@ export function hostInfo() {
   ].filter(Boolean).join(' · ')
 }
 
+/**
+ * Records one reading of the NIM balance. Nimiq Pay's reading can be a momentary 0 while it replaces the HTLC,
+ * and the RPC only sees the wallet address, so the app keeps the higher of the two and never refuses on it alone.
+ */
+export function noteNimBalance(source: 'pay' | 'rpc', value: bigint | null) {
+  store.nimReadings[source] = value
+  const known = [store.nimReadings.pay, store.nimReadings.rpc].filter((v): v is bigint => v != null)
+  store.nimBalanceLuna = known.length ? known.reduce((a, b) => (a > b ? a : b)) : null
+}
+
 export async function refreshNimBalance() {
-  if (!store.nimAddress) return
-  store.nimBalanceLuna = await nimBalanceLuna(store.nimAddress)
+  if (!store.nimAccounts.length) return
+  noteNimBalance('pay', await nimBalanceLuna(store.nimAccounts))
 }
 
 export async function loadSummary() {
@@ -105,7 +125,7 @@ export async function loadSummary() {
   try {
     store.summary = await api.summary(store.owner, store.nimAddress)
     store.summaryError = ''
-    if (store.summary.nim.balanceLuna) store.nimBalanceLuna = BigInt(store.summary.nim.balanceLuna)
+    if (store.summary.nim.balanceLuna != null) noteNimBalance('rpc', BigInt(store.summary.nim.balanceLuna))
   } catch (e: any) {
     store.summaryError = e?.code ?? 'internal'
   } finally {

@@ -22,6 +22,8 @@ export function installMockWallet() {
     async getBalance() { return Number(setting('mock.nimBalanceLuna', '1824000000')) },
     async sendBasicTransactionWithData(tx: { recipient: string; value: number; data: string }) {
       if (setting('mock.cancelFee', '0') === '1') throw Object.assign(new Error('User rejected'), { code: 4001 })
+      // Nimiq Pay refuses a payment it cannot fund; the app must not pre-empt that on its own reading.
+      if (Number(setting('mock.nimBalanceLuna', '1824000000')) < tx.value) throw Object.assign(new Error('Insufficient balance'), { code: -32000 })
       log('NIM payment', tx)
       const prefix = setting('mock.nimHashPrefix', '')
       return (prefix + randomHash()).slice(0, 64)

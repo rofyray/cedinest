@@ -111,13 +111,13 @@ onMounted(() => { if (store.signedIn) void load() })
     <template v-else>
       <div class="field">
         <label class="label" for="goal-name">{{ t('goals.nameLabel') }}</label>
-        <input id="goal-name" v-model="name" type="text" maxlength="40" :placeholder="t('goals.namePlaceholder')" data-testid="goal-name" />
+        <input id="goal-name" v-model="name" type="text" maxlength="40" enterkeyhint="next" :placeholder="t('goals.namePlaceholder')" data-testid="goal-name" />
       </div>
       <div class="field">
         <label class="label" for="goal-target">{{ t('goals.targetLabel') }}</label>
         <div class="money">
           <span class="cur">GH₵</span>
-          <input id="goal-target" v-model="target" type="text" inputmode="decimal" placeholder="12,000" data-testid="goal-target" />
+          <input id="goal-target" v-model="target" type="text" inputmode="decimal" enterkeyhint="done" placeholder="12,000" data-testid="goal-target" />
         </div>
       </div>
       <div class="field">

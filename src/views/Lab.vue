@@ -10,7 +10,7 @@ import { polygon } from 'viem/chains'
 import { erc20Abi } from '../../shared/abi.js'
 import { A_POL_USDT, POLYGON_RPC, USDT0 } from '../../shared/constants.js'
 import { connectEvm, signPermit } from '../lib/evm.js'
-import { nimAccount, payNimFee } from '../lib/nimiq.js'
+import { nimAccounts, payNimFee } from '../lib/nimiq.js'
 
 const out = ref<string[]>([])
 const log = (label: string, v: unknown) => { out.value.unshift(`${new Date().toISOString().slice(11, 19)} ${label}: ${typeof v === 'string' ? v : JSON.stringify(v, (_k, x) => (typeof x === 'bigint' ? x.toString() : x), 2)}`) }
@@ -37,7 +37,7 @@ async function pay() {
   try {
     const to = import.meta.env.VITE_LAB_NIM_ADDRESS as string | undefined
     if (!to) throw new Error('set VITE_LAB_NIM_ADDRESS')
-    const from = await nimAccount()
+    const [from] = await nimAccounts()
     const hash = await payNimFee(to, 1_000_000, 'cedinest:lab-001')
     log('NIM payment', { from, to, hash, verify: `npx tsx scripts/verify-nim-payment.ts ${hash} cedinest:lab-001 1000000` })
   } catch (e: any) { log('NIM payment failed', e?.message ?? String(e)) }

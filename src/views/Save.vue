@@ -26,6 +26,7 @@ const nimBalance = computed(() => (store.nimBalanceLuna != null ? lunaToNim(stor
 const goal = computed(() => s.value?.goals.find((g) => g.id === goalId.value) ?? null)
 const valid = computed(() => !!raw.value && amountUsd.value >= 1 && amountUsd.value <= walletUsd.value)
 const busy = computed(() => flow.state.value !== 'idle')
+const lowNim = computed(() => nimBalance.value != null && nimBalance.value < fee.value.nim)
 const paused = computed(() => !!s.value && (s.value.reserve.paused || s.value.reserve.frozen))
 
 watch(() => s.value?.goals, (goals) => { if (goals && goals.length && goalId.value === null && !picking.value) goalId.value = goals[0]!.id }, { immediate: true })
@@ -56,7 +57,7 @@ async function stampIt() {
       <label class="label" for="amt">{{ t('save.amountLabel') }}</label>
       <div class="amount">
         <span class="cur">$</span>
-        <input id="amt" v-model="amount" inputmode="decimal" autocomplete="off" :disabled="busy" data-testid="amount-input" />
+        <input id="amt" v-model="amount" inputmode="decimal" enterkeyhint="done" autocomplete="off" :disabled="busy" data-testid="amount-input" />
         <span class="small muted">{{ t('common.usdt') }}</span>
       </div>
       <div data-testid="amount-helper">{{ t('save.amountHelper', { ghs: ghs(amountUsd * rate), usd: usd(walletUsd) }) }}</div>
@@ -73,7 +74,7 @@ async function stampIt() {
           <div class="goal-name" data-testid="goal-picked">{{ goal ? goal.name : t('save.noGoal') }}</div>
         </div>
         <button v-if="s && !s.goalsLocked && s.goals.length" class="btn btn-ghost" type="button" :disabled="busy" @click="picking = !picking">{{ t('save.change') }}</button>
-        <router-link v-else to="/goals/new" class="btn btn-ghost">{{ t('home.newGoal') }}</router-link>
+        <router-link v-else to="/goals/new" class="btn btn-pill"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{ t('home.newGoal') }}</router-link>
       </div>
       <div v-if="picking && s" class="goal-list" role="listbox" :aria-label="t('save.pickGoal')">
         <button v-for="g in s.goals" :key="g.id" type="button" role="option" :aria-selected="goalId === g.id" class="opt" @click="goalId = g.id; picking = false">{{ g.name }}</button>
@@ -95,6 +96,7 @@ async function stampIt() {
       {{ t('save.approval1', { nim: fee.nim }) }}<br />
       {{ t('save.approval2', { amount: Math.round(amountUsd) }) }}
     </div>
+    <div v-if="lowNim" class="note" role="status">{{ t('errors.lowNim', { have: nim(nimBalance!).replace(' NIM', ''), fee: fee.nim }) }}</div>
 
     <ErrorNote v-if="flow.error.value" :title="flow.error.value.title" :body="flow.error.value.body" />
     <ErrorNote v-else-if="paused" :body="t('errors.paused')" />

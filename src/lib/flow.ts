@@ -68,11 +68,11 @@ export function useRelayFlow(kind: 'deposit' | 'withdraw') {
     } catch (e) { return mapApiError(e, p.amountRaw) }
     quote.value = q
 
+    // The balance reading is advisory: Nimiq Pay keeps NIM in an HTLC it replaces now and then, and the old one can
+    // read 0 for a moment. Nimiq Pay itself decides whether the fee can be paid; the reading only explains a refusal.
     await refreshNimBalance()
     const feeNim = lunaToNim(q.feeLuna)
-    if (store.nimBalanceLuna != null && store.nimBalanceLuna < BigInt(q.feeLuna)) {
-      return fail('not_enough_nim', t('errors.notEnoughNim', { fee: nim(feeNim).replace(' NIM', ''), have: nim(lunaToNim(store.nimBalanceLuna)).replace(' NIM', '') }), t('errors.notEnoughNimTitle'))
-    }
+    const feeText = nim(feeNim).replace(' NIM', '')
 
     // Approval 1: the NIM stamp fee, with the quote memo.
     state.value = 'approve-fee'
@@ -81,7 +81,11 @@ export function useRelayFlow(kind: 'deposit' | 'withdraw') {
       nimTxHash = await payNimFee(q.nimRecipient, Number(q.feeLuna), q.memo)
     } catch (e) {
       if (isUserRejection(e)) return fail('fee_cancelled', t('errors.feeCancelled'))
-      return fail('fee_failed', t('errors.feeCancelled'))
+      await refreshNimBalance()
+      if (store.nimBalanceLuna != null && store.nimBalanceLuna < BigInt(q.feeLuna)) {
+        return fail('not_enough_nim', t('errors.notEnoughNim', { fee: feeText, have: nim(lunaToNim(store.nimBalanceLuna)).replace(' NIM', '') }), t('errors.notEnoughNimTitle'))
+      }
+      return fail('fee_failed', t('errors.feeFailed', { fee: feeText }), t('errors.feeFailedTitle'))
     }
 
     // Approval 2: the permit. If the user cancels here, the fee is already paid: file the job for a refund.
