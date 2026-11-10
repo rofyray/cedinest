@@ -84,7 +84,8 @@ a { color: var(--grow); }
   color: var(--stamp); background: var(--card); transform: rotate(-7deg); flex: none;
 }
 .stamp-mark .amt { font-family: var(--font-display); font-weight: 700; line-height: 1; }
-.stamp-mark .line { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; margin-top: 4px; }
+.stamp-mark .line { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; margin-top: 4px; max-width: 82%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+.stamp-mark .line.goal { margin-top: 1px; }
 .stamp-mark.pending { opacity: 0.55; }
 .stamp-mark.press { animation: press 180ms ease-out; }
 @keyframes press { from { transform: rotate(-7deg) scale(1.15); } to { transform: rotate(-7deg) scale(1); } }

@@ -10,6 +10,15 @@ test.afterAll(async () => { await page.close() })
 
 const shot = (name: string) => page.screenshot({ path: `assets/screenshots/${name}.png`, fullPage: true })
 
+// Screens that pin their button to the bottom of the viewport: shoot them in a short viewport so the shot stays compact.
+async function compactShot(name: string) {
+  const viewport = page.viewportSize()!
+  await page.setViewportSize({ width: viewport.width, height: 560 })
+  const height = await page.evaluate(() => document.documentElement.scrollHeight)
+  await page.screenshot({ path: `assets/screenshots/${name}.png`, clip: { x: 0, y: 0, width: viewport.width, height } })
+  await page.setViewportSize(viewport)
+}
+
 test('captures the main screens', async () => {
   await page.goto('/')
   await page.evaluate(() => localStorage.clear())
@@ -25,7 +34,8 @@ test('captures the main screens', async () => {
   await page.getByTestId('goal-name').fill('Rent advance, January')
   await page.getByTestId('goal-target').fill('12000')
   await page.getByTestId('goal-month').fill('2027-12')
-  await shot('3-new-goal')
+  await page.getByTestId('goal-month').blur()
+  await compactShot('3-new-goal')
   await page.getByTestId('goal-save').click()
   await expect(page.getByText('Rent advance, January')).toBeVisible()
 
@@ -40,10 +50,5 @@ test('captures the main screens', async () => {
   await shot('6-home')
 
   await page.getByTestId('take-out-cta').click()
-  // The take-out screen pins its button to the bottom of the viewport: use a short one so the shot stays compact.
-  const viewport = page.viewportSize()!
-  await page.setViewportSize({ width: viewport.width, height: 560 })
-  const height = await page.evaluate(() => document.documentElement.scrollHeight)
-  await page.screenshot({ path: 'assets/screenshots/7-take-out.png', clip: { x: 0, y: 0, width: viewport.width, height } })
-  await page.setViewportSize(viewport)
+  await compactShot('7-take-out')
 })
