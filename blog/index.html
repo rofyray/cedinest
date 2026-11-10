@@ -39,7 +39,7 @@
     .lede { font-size: 21px; line-height: 1.5; color: var(--muted); margin-top: 18px; }
     .byline { font-size: 14px; color: var(--muted); margin-top: 14px; }
     .video { position: relative; aspect-ratio: 16 / 9; margin: 36px 0 8px; border-radius: 14px; overflow: hidden; border: 1px solid var(--rule); background: var(--card); }
-    .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--ink); }
     .caption { font-size: 14px; color: var(--muted); }
     .links { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 8px; }
     .links a { display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 12px; border: 1.5px solid var(--ink); color: var(--ink); font-weight: 600; font-size: 15px; }
@@ -74,13 +74,12 @@
     </nav>
   </header>
 
-  <div class="kicker">Building in public</div>
   <h1>Building CediNest: dollar savings, counted in cedis</h1>
   <p class="lede">A Nimiq Pay mini app for Ghana. Your USDT goes into Aave on Polygon, in your own name, and every balance, goal and gain is shown in Ghana cedis. Here is how it works, what nearly broke it, and what we learned.</p>
   <p class="byline">By <a href="https://github.com/rofyray">rofyray</a> · November 2026 · Entry for the Nimiq Mini Apps Competition, Cycle III</p>
 
-  <div class="video"><iframe src="https://www.youtube.com/embed/yc5u1duo5Mo" title="CediNest demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-  <p class="caption">The demo is the real thing on mainnet: a one dollar save and a full withdrawal from a phone.</p>
+  <div class="video"><video controls playsinline preload="metadata" poster="demo-poster.jpg" src="cedinest-demo.mp4" title="CediNest demo"></video></div>
+  <p class="caption">The demo is the real thing on mainnet: a one dollar save and a full withdrawal from a phone. Also on <a href="https://youtu.be/yc5u1duo5Mo">YouTube</a>.</p>
   <div class="links">
     <a class="primary" href="https://cedinest.vercel.app">Open cedinest.vercel.app</a>
     <a href="https://github.com/rofyray/cedinest">Source on GitHub</a>
