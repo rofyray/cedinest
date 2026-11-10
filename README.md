@@ -18,6 +18,7 @@ can, and watch a monthly stamp card fill up, the way a susu collector's card doe
 </p>
 
 Entry for the Nimiq Mini Apps Competition, Cycle III, **Earn** category.
+[Watch the demo](https://youtu.be/yc5u1duo5Mo) (a real 1 USDT save and withdrawal) · [Read how it was built](https://rofyray.github.io/cedinest/) (architecture, gotchas, lessons).
 
 | | |
 | --- | --- |
