@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Building CediNest: dollar savings, counted in cedis</title>
+  <meta name="description" content="How CediNest, a Nimiq Pay mini app for Ghana, puts USDT into Aave on Polygon in the user's own name, shows every number in cedis, and pays Polygon gas with a NIM fee. The architecture, the gotchas and the lessons." />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Building CediNest: dollar savings, counted in cedis" />
+  <meta property="og:description" content="A Nimiq Pay mini app for Ghana: USDT into Aave on Polygon, in your own name, shown in cedis. The architecture, the gotchas and the lessons." />
+  <meta property="og:image" content="https://cedinest.vercel.app/og.jpg" />
+  <meta property="og:url" content="https://rofyray.github.io/cedinest/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="https://cedinest.vercel.app/icon-192.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #EFE6D4; --card: #FFFBF2; --rule: #D9CDB4; --rule-soft: #E6DCC7; --ink: #23301F; --muted: #545A49;
+      --stamp: #9C3A22; --grow: #2E5A39; --dash: #C9BC9F;
+      --display: 'Fraunces', Georgia, serif; --ui: 'Public Sans', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--paper); color: var(--ink); }
+    body { font-family: var(--ui); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--grow); text-decoration: none; border-bottom: 1px solid var(--dash); }
+    a:hover { border-bottom-color: var(--grow); }
+    h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.12; margin: 0; letter-spacing: -0.01em; }
+    h1 { font-size: clamp(34px, 5vw, 52px); }
+    h2 { font-size: clamp(26px, 3.2vw, 34px); margin-top: 56px; }
+    h3 { font-size: 21px; margin-top: 30px; }
+    p { margin: 14px 0; }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 24px 20px 80px; }
+    header.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0 40px; }
+    header.top img { height: 44px; }
+    header.top nav a { margin-left: 18px; font-weight: 600; font-size: 15px; border: none; }
+    .kicker { font-size: 13px; font-weight: 600; color: var(--stamp); text-transform: uppercase; letter-spacing: 0.1em; }
+    .lede { font-size: 21px; line-height: 1.5; color: var(--muted); margin-top: 18px; }
+    .byline { font-size: 14px; color: var(--muted); margin-top: 14px; }
+    .video { position: relative; aspect-ratio: 16 / 9; margin: 36px 0 8px; border-radius: 14px; overflow: hidden; border: 1px solid var(--rule); background: var(--card); }
+    .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .caption { font-size: 14px; color: var(--muted); }
+    .links { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 8px; }
+    .links a { display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 12px; border: 1.5px solid var(--ink); color: var(--ink); font-weight: 600; font-size: 15px; }
+    .links a.primary { background: var(--stamp); border-color: var(--stamp); color: var(--card); }
+    .card { background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 18px 20px; margin: 22px 0; }
+    .card p:first-child { margin-top: 0; } .card p:last-child { margin-bottom: 0; }
+    .slip { border-top: 2px dashed var(--dash); border-radius: 4px 4px 14px 14px; }
+    ol, ul { padding-left: 22px; } li { margin: 6px 0; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; background: var(--card); border: 1px solid var(--rule-soft); border-radius: 6px; padding: 1px 6px; }
+    pre { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 14px 16px; overflow-x: auto; font-size: 14px; line-height: 1.5; }
+    pre code { background: none; border: none; padding: 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; margin: 16px 0; }
+    th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+    th { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0; }
+    .shots img { width: 100%; border-radius: 12px; border: 1px solid var(--rule); }
+    .shots figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .shots figure { margin: 0; }
+    @media (max-width: 640px) { .shots { grid-template-columns: 1fr 1fr; } }
+    footer { margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--rule); font-size: 14px; color: var(--muted); }
+    .stamp-note { font-family: var(--display); font-size: 22px; color: var(--stamp); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a href="https://cedinest.vercel.app" style="border:none"><img src="https://raw.githubusercontent.com/rofyray/cedinest/main/assets/brand/original-wordmark.jpg" alt="CediNest" /></a>
+    <nav>
+      <a href="https://cedinest.vercel.app">App</a>
+      <a href="https://github.com/rofyray/cedinest">Code</a>
+      <a href="https://youtu.be/yc5u1duo5Mo">Demo</a>
+    </nav>
+  </header>
+
+  <div class="kicker">Building in public</div>
+  <h1>Building CediNest: dollar savings, counted in cedis</h1>
+  <p class="lede">A Nimiq Pay mini app for Ghana. Your USDT goes into Aave on Polygon, in your own name, and every balance, goal and gain is shown in Ghana cedis. Here is how it works, what nearly broke it, and what we learned.</p>
+  <p class="byline">By <a href="https://github.com/rofyray">rofyray</a> · November 2026 · Entry for the Nimiq Mini Apps Competition, Cycle III</p>
+
+  <div class="video"><iframe src="https://www.youtube.com/embed/yc5u1duo5Mo" title="CediNest demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+  <p class="caption">The demo is the real thing on mainnet: a one dollar save and a full withdrawal from a phone.</p>
+  <div class="links">
+    <a class="primary" href="https://cedinest.vercel.app">Open cedinest.vercel.app</a>
+    <a href="https://github.com/rofyray/cedinest">Source on GitHub</a>
+  </div>
+  <p class="caption">In Nimiq Pay: Mini Apps › Custom URL › <code>https://cedinest.vercel.app</code> until the directory listing goes live.</p>
+
+  <h2>Why this exists</h2>
+  <p>Money saved in cedis loses value while it sits. Over the last few years the cedi has swung hard against the dollar, so the people with the clearest reason to save, for rent advance, school fees or a shop, are the ones most exposed. In Ghana, landlords commonly ask for one or two years of rent up front, so a rent goal is big, slow and easy to lose to the exchange rate.</p>
+  <p>Many people here already know the answer: hold dollars. What they lack is a savings habit around it that speaks their language. Prices in Ghana are in cedis, rent is in cedis, and the mental maths of "how much of my rent advance do I have" is in cedis. A dollar balance on its own does not answer that question.</p>
+  <p>CediNest does the conversion for you, in both directions. You save in dollars and watch the goal fill up in cedis. The savings earn a variable rate in Aave. And the stamp card, borrowed from the susu collector's card that generations of Ghanaians have saved with, makes each small deposit feel like progress.</p>
+
+  <div class="shots">
+    <figure><img src="https://raw.githubusercontent.com/rofyray/cedinest/main/assets/screenshots/6-home.png" alt="Home screen: savings in cedis, the Since You Started chart, the November stamp card and a goal" /><figcaption>Home: the card, the chart, the goal.</figcaption></figure>
+    <figure><img src="https://raw.githubusercontent.com/rofyray/cedinest/main/assets/screenshots/4-save.png" alt="Stamp a Saving: amount, goal and the slip with the NIM fee" /><figcaption>Stamp a saving: the slip shows the fee.</figcaption></figure>
+    <figure><img src="https://raw.githubusercontent.com/rofyray/cedinest/main/assets/screenshots/5-done.png" alt="Done screen: E Enter!, goal progress, share card and receipt" /><figcaption>Done: E Enter!, then share your card.</figcaption></figure>
+  </div>
+
+  <h2>What it is, in one paragraph</h2>
+  <p>CediNest runs inside <a href="https://nimiq.com/nimiq-pay">Nimiq Pay</a> as a mini app. Nimiq Pay gives it two accounts: a NIM account and a Polygon account that holds the user's USDT. A save moves USDT from that account into <a href="https://aave.com">Aave v3</a> on Polygon, supplied on behalf of the user, so the interest-bearing aToken lands in their own wallet. A take-out does the reverse. CediNest never holds the money. It holds the goals, the stamp history and a record of each job, in a small Postgres database.</p>
+
+  <h2>The hard part: nobody has POL</h2>
+  <p>Most Nimiq Pay users hold NIM and USDT. Nobody holds POL, the gas token on Polygon, and a mini app cannot sponsor gas on the user's behalf. Without a solution, the very first save fails with an error about gas that a saver in Kumasi has no reason to understand.</p>
+  <p>So the user never sends a Polygon transaction at all. Instead:</p>
+  <ol>
+    <li>The app asks the API for a quote. The API prices the Polygon gas from live gas, POL and NIM prices, applies a 50 NIM floor, and stores a quote that expires in ten minutes.</li>
+    <li><strong>Approval one.</strong> The user pays the fee in NIM (about one cent) from Nimiq Pay, with the quote id in the transaction memo.</li>
+    <li><strong>Approval two.</strong> The user signs an EIP-2612 permit for exactly the amount being saved. Nimiq Pay shows the typed data, and the app checks locally that the recovered signer is the user before it sends anything.</li>
+    <li>The API verifies the NIM payment on the Nimiq chain, then a relayer wallet calls our contract with the permit, and the contract supplies to Aave with <code>onBehalfOf = user</code>.</li>
+  </ol>
+  <p>Two taps in Nimiq Pay, no POL, and the money goes straight from the user's wallet into their own Aave position.</p>
+
+  <h2>The relay contract is deliberately boring</h2>
+  <p><a href="https://github.com/rofyray/cedinest/blob/main/contracts/contracts/CediNestRelay.sol">CediNestRelay.sol</a> is about seventy lines. It exposes exactly two functions, <code>depositFor</code> and <code>withdrawFor</code>, both callable only by the relayer, and both can only move a user's money between that user's wallet and that user's own Aave position. The owner can rotate the relayer and nothing else. There is no admin withdraw, no upgrade path and no fee taken in USDT.</p>
+  <div class="card slip">
+    <p><strong>Threat model in one sentence:</strong> a stolen relayer key can, at worst, move a user's savings between their own Aave position and their own wallet, and only with a valid permit from that user. It cannot take them.</p>
+  </div>
+  <p>A permit that someone front-runs still works, because the contract falls back to the existing allowance. Fork tests against live Polygon cover the happy paths, withdraw-all after thirty days of interest, bad and expired and reused signatures, the front-run case, and relayer rotation. The contract is live at <a href="https://polygonscan.com/address/0xA46C2c8e3Fd4A1c6D6c4ae81f5ACC4d32E37f4E4"><code>0xA46C…f4E4</code></a>.</p>
+
+  <h2>Gotcha one: USDT on Polygon is not the USDT you think</h2>
+  <p>Since the August 2025 in-place upgrade, USDT on Polygon is USDT0. The token still shows as USDT in wallets, but its EIP-712 domain for permits is non-standard: the name is <code>USDT0</code>, the version is <code>1</code>, the verifying contract is the token, and instead of a <code>chainId</code> field it carries a <code>salt</code> equal to the chain id (137) as bytes32. The field order matters too: name, version, verifyingContract, salt.</p>
+  <pre><code>// shared/constants.ts
+export const USDT0_DOMAIN = {
+  name: 'USDT0', version: '1',
+  verifyingContract: USDT0,
+  salt: '0x0000…0089',   // chain id 137, no chainId field
+}</code></pre>
+  <p>Sign with the standard domain and the recovered signer is simply wrong. The error does not say "wrong domain", it says the permit is invalid, which sends you hunting in the wrong place. The aToken, aPolUSDT, uses the standard domain. Both are checked against <code>DOMAIN_SEPARATOR()</code> on mainnet by a script before anything else runs.</p>
+
+  <h2>Gotcha two: Nimiq Pay keeps your NIM somewhere else</h2>
+  <p>The first real recording of the demo died on a refusal: "Not enough NIM for the stamp fee. You have 0 NIM." The phone had almost thirty thousand NIM.</p>
+  <p>Nimiq Pay holds a user's spendable NIM in a hashed time-locked contract shared with its cosigner, which is what gives its payments instant finality. The wallet address a mini app sees first "usually reads 0". The balance lives at a second address, the current HTLC, which Nimiq Pay replaces about every week and after top-ups. The fix was in three parts: read the balance across every account the SDK lists, refresh on the <code>accountsChanged</code> event, and never refuse a payment on the app's own reading. Nimiq Pay decides whether it can pay the fee. The reading only explains a refusal after the fact.</p>
+
+  <h2>Gotcha three: when is a NIM payment final?</h2>
+  <p>The API only relays once the fee is paid, so it has to know when a NIM transaction is final. Nimiq finality is by macro block, so the verifier checks the memo, the amount, the recipient and the execution result, then waits until the transaction's block is at or before the last macro block. The job states are deliberately explicit:</p>
+  <pre><code>fee_pending → fee_final → submitted → done
+                                   ↘ failed      (bad fee payment, nothing moved)
+                                   ↘ refund_due  (fee paid, relay failed or the user cancelled the signature)</code></pre>
+  <p>If the user cancels the signature after paying the fee, the app files the job anyway so the fee shows up in a daily refund list. Every error message says what happened to the money, because that is the only question a saver has at that moment.</p>
+
+  <h2>Gotcha four: the stamp card is a layout problem</h2>
+  <p>The stamp on the done screen carries the amount, the date and the goal name. "RENT ADVANCE" is longer than "RENT" and wrapped mid-word outside the rim. The fix was to render the date and the goal as separate lines, each clipped to the circle. Small, but it is the one screen people screenshot.</p>
+  <p>Phones added two more. Tapping outside a text field does not close the keyboard on iOS, so the Stamp It button hid behind the keypad until the app learned to blur the field on any touch outside it. And the router kept the scroll position between screens, so opening Take Out from the bottom of the home screen landed mid-page.</p>
+
+  <h2>Stack</h2>
+  <table>
+    <tr><th>Layer</th><th>Choice</th><th>Why</th></tr>
+    <tr><td>App</td><td>Vue 3, Vite, one <code>copy/en.ts</code> for every string</td><td>Every sentence a user sees lives in one file, which made the Pidgin moments and the plain-English money copy easy to keep consistent.</td></tr>
+    <tr><td>Wallet</td><td>Nimiq Pay mini app SDK plus the injected EIP-1193 provider</td><td>NIM account for fees, Polygon account for USDT, typed-data signing for permits.</td></tr>
+    <tr><td>API</td><td>Vercel Functions, <code>waitUntil</code> for the relay step</td><td>The job answers in milliseconds and finishes server-side even if the user closes the app.</td></tr>
+    <tr><td>Database</td><td>Neon Postgres, one advisory lock for the relayer</td><td>One relayer send at a time, so nonces never collide across function instances.</td></tr>
+    <tr><td>Chain</td><td>Hardhat, viem, fork tests against live Polygon</td><td>Measured gas on a fork: <code>depositFor</code> 237k, <code>withdrawFor</code> 290k. The fee formula uses these with a margin, and the 50 NIM floor covers it a few times over.</td></tr>
+    <tr><td>Tests</td><td>Vitest for the API against fake chains, Playwright end to end</td><td>The whole story, welcome to goal to save to share to take out, runs in a browser with a fake Nimiq Pay in under twenty seconds.</td></tr>
+  </table>
+
+  <h2>Lessons</h2>
+  <h3>Show the money in the unit people think in</h3>
+  <p>Every number on screen is in cedis first and dollars second. The chart on the home screen draws two lines: your dollar savings counted in cedis, and the same money if you had kept it in cedis. When the cedi falls, the gap is the point of the app. When the cedi gains, the caption says so plainly. We would rather show an honest dip than a chart that only goes up.</p>
+  <h3>Say what happened to the money, every time</h3>
+  <p>Every error in the app ends with the state of the user's funds: "Nothing moved", "Your USDT has not moved", "We will send your 50 NIM back within 24 hours". A technical cause is useful to us. Where the money is, is useful to the saver.</p>
+  <h3>Check the feasibility pieces before writing the app</h3>
+  <p>Three things could have sunk the project: whether a salt-domain permit lets a second account supply to Aave on your behalf, whether Nimiq Pay would sign that typed data on a real phone, and whether a NIM payment with a memo could be verified from a server. A hidden lab page signed both permits and paid ten NIM from a real phone before any screen was designed.</p>
+  <h3>Liquidity is a product constraint</h3>
+  <p>Getting NIM and USDT into a Ghanaian test wallet took longer than writing the relay contract. Several swap services list NIM but will not fill an order, minimums were too high, and the web wallet's USDT path was under maintenance that week. The fee floor of 50 NIM, about one cent, exists partly so that a few hundred NIM lasts a saver a long time.</p>
+  <h3>Borrow the habit, not the jargon</h3>
+  <p>Nobody in the app is asked to think about aTokens, permits or gas. They stamp a saving, the stamp office does the rest, and when it lands the screen says "E Enter!". The susu card is doing the work that a tutorial would otherwise have to do.</p>
+
+  <h2>What is next</h2>
+  <ul>
+    <li>Listing in the Nimiq Pay mini app directory, so the Custom URL step goes away.</li>
+    <li>Goal archive becomes a real delete when a goal has no stamps.</li>
+    <li>Reminders tied to the stamp card: a nudge on the days you usually stamp.</li>
+    <li>Moving contract ownership to a cold address, and publishing the refund log.</li>
+  </ul>
+
+  <div class="card">
+    <p class="stamp-note">Small small, e go reach.</p>
+    <p>Try it in Nimiq Pay: Mini Apps › Custom URL › <a href="https://cedinest.vercel.app">cedinest.vercel.app</a>. The code is MIT licensed at <a href="https://github.com/rofyray/cedinest">github.com/rofyray/cedinest</a>, and the <a href="https://youtu.be/yc5u1duo5Mo">demo video</a> shows a real one dollar save and a full withdrawal.</p>
+  </div>
+
+  <footer>
+    <p>CediNest is a competition entry and an experiment, offered as is. Aave pays a rate that can change, savings there can lose value if the protocol fails, and the cedi rate moves both ways. You control your funds. CediNest never holds your money.</p>
+  </footer>
+</div>
+</body>
+</html>
