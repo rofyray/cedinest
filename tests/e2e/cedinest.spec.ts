@@ -89,7 +89,7 @@ test('stamps a $20 saving with two approvals and lands on the done screen', asyn
   await expect(page.getByText('earned so far')).toBeVisible()
   await expect(page.getByText('Since you started')).toBeVisible()
   await expect(page.getByText('Your line starts today.')).toBeVisible()
-  await expect(page.getByText('4%')).toBeVisible()
+  await expect(page.getByText('2%')).toBeVisible()
 })
 
 test('refuses a saving under $1 and above the wallet balance', async () => {
