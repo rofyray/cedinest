@@ -40,5 +40,10 @@ test('captures the main screens', async () => {
   await shot('6-home')
 
   await page.getByTestId('take-out-cta').click()
-  await shot('7-take-out')
+  // The take-out screen pins its button to the bottom of the viewport: use a short one so the shot stays compact.
+  const viewport = page.viewportSize()!
+  await page.setViewportSize({ width: viewport.width, height: 560 })
+  const height = await page.evaluate(() => document.documentElement.scrollHeight)
+  await page.screenshot({ path: 'assets/screenshots/7-take-out.png', clip: { x: 0, y: 0, width: viewport.width, height } })
+  await page.setViewportSize(viewport)
 })
