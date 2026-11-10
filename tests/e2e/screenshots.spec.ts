@@ -24,7 +24,7 @@ test('captures the main screens', async () => {
   await page.getByTestId('new-goal').click()
   await page.getByTestId('goal-name').fill('Rent advance, January')
   await page.getByTestId('goal-target').fill('12000')
-  await page.getByTestId('goal-month').fill('2027-01')
+  await page.getByTestId('goal-month').fill('2027-12')
   await shot('3-new-goal')
   await page.getByTestId('goal-save').click()
   await expect(page.getByText('Rent advance, January')).toBeVisible()
