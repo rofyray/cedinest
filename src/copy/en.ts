@@ -177,7 +177,7 @@ export const en = {
     newTitle: 'New goal',
     editTitle: 'Edit goal',
     nameLabel: 'What are you saving for?',
-    namePlaceholder: 'Rent, January',
+    namePlaceholder: 'Rent advance, January',
     targetLabel: 'Target in cedis',
     dateLabel: 'By when (optional)',
     helper: 'About {usd} today. Save {weekly} a week to reach it.',

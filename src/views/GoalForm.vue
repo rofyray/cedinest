@@ -117,7 +117,7 @@ onMounted(() => { if (store.signedIn) void load() })
         <label class="label" for="goal-target">{{ t('goals.targetLabel') }}</label>
         <div class="money">
           <span class="cur">GH₵</span>
-          <input id="goal-target" v-model="target" type="text" inputmode="decimal" placeholder="6,000" data-testid="goal-target" />
+          <input id="goal-target" v-model="target" type="text" inputmode="decimal" placeholder="12,000" data-testid="goal-target" />
         </div>
       </div>
       <div class="field">

@@ -6,7 +6,7 @@
 
 CediNest is a [Nimiq Pay](https://nimiq.com/nimiq-pay) mini app for Ghana. You move USDT into
 [Aave v3](https://aave.com) on Polygon, where it earns a variable rate, and CediNest shows every
-balance, goal and gain in Ghana cedis. Set a goal like rent in January, stamp a saving whenever you
+balance, goal and gain in Ghana cedis. Set a goal like next year's rent advance, stamp a saving whenever you
 can, and watch a monthly stamp card fill up, the way a susu collector's card does.
 
 **You control your funds. CediNest never holds your money.**
