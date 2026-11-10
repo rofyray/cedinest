@@ -32,3 +32,6 @@ design/
 notes/
 
 .DS_Store
+
+# Demo video working files (voiceover, script, recordings): never committed
+cedinest-video/
